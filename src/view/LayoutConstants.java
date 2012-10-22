@@ -10,7 +10,13 @@ package view;
  */
 public class LayoutConstants {
     
-    public static final int WINDOW_WIDTH = 800;
-    public static final int WINDOW_HEIGHT = 600;
+    public static final String APP_NAME = "GTD app";
+    
+    public static final int FRAME_WIDTH = 800;
+    public static final int FRAME_HEIGHT = 600;
+    
+    public static final int NAVPANE_WIDTH = 200;
+    public static final int NAVPANE_HEIGT = FRAME_HEIGHT;
+    
     
 }

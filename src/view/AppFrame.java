@@ -14,11 +14,11 @@ import static view.LayoutConstants.*;
 public class AppFrame extends JFrame {
     
     public AppFrame() {
-        super("GTD app");
+        super(APP_NAME);
         
         setVisible(true);
         
-        setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
         setLocationRelativeTo(null);
     }
     
