@@ -1,0 +1,15 @@
+#java specific
+*.class
+
+#ignore IDE stuff
+nbproject/private/
+*.iml
+*.ipr
+*.iws
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
