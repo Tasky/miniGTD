@@ -21,6 +21,7 @@ public class AppFrame extends JFrame {
         setLayout(null);
         setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
         setLocationRelativeTo(null);
+        setResizable(false);
         
         add(navpane = new NavPane(0, 0, NAVPANE_WIDTH, NAVPANE_HEIGHT));
         add(contentpane = new ContentPane(NAVPANE_WIDTH, 0, CONTENTPANE_WIDTH, CONTENTPANE_HEIGHT));
