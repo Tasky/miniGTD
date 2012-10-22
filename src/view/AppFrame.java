@@ -13,13 +13,17 @@ import static view.LayoutConstants.*;
  */
 public class AppFrame extends JFrame {
     
+    private NavPane navpane;
+    
     public AppFrame() {
         super(APP_NAME);
-        
-        setVisible(true);
-        
+        setLayout(null);
         setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
         setLocationRelativeTo(null);
+        
+        add(navpane = new NavPane(0, 0, NAVPANE_WIDTH, NAVPANE_HEIGHT));
+        
+        setVisible(true);
     }
     
 }
