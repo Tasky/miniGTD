@@ -2,6 +2,7 @@
 *.class
 
 #ignore IDE stuff
+build/
 nbproject/private/
 *.iml
 *.ipr
