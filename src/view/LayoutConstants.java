@@ -17,6 +17,8 @@ public class LayoutConstants {
     
     public static final int NAVPANE_WIDTH = 150;
     public static final int NAVPANE_HEIGHT = FRAME_HEIGHT;
-    
+
+    public static final int CONTENTPANE_WIDTH = FRAME_WIDTH-NAVPANE_WIDTH;
+    public static final int CONTENTPANE_HEIGHT = FRAME_HEIGHT;
     
 }

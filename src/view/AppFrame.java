@@ -14,6 +14,7 @@ import static view.LayoutConstants.*;
 public class AppFrame extends JFrame {
     
     private NavPane navpane;
+    private ContentPane contentpane;
     
     public AppFrame() {
         super(APP_NAME);
@@ -22,6 +23,7 @@ public class AppFrame extends JFrame {
         setLocationRelativeTo(null);
         
         add(navpane = new NavPane(0, 0, NAVPANE_WIDTH, NAVPANE_HEIGHT));
+        add(contentpane = new ContentPane(NAVPANE_WIDTH, 0, CONTENTPANE_WIDTH, CONTENTPANE_HEIGHT));
         
         setVisible(true);
     }

@@ -12,14 +12,13 @@ import static view.LayoutConstants.*;
  *
  * @author tim
  */
-public class NavPane extends JPanel {
+public class ContentPane extends JPanel {
     
-    public NavPane(int x, int y, int w, int h) {
+    public ContentPane(int x, int y, int w, int h) {
         super(null);
-
-        setBounds(x, y, w, h);
-        setBackground(Color.BLACK);
         
+        setBounds(x, y, w, h);
+        setBackground(Color.red);
     }
     
 }
