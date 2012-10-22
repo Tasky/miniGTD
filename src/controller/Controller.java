@@ -4,10 +4,18 @@
  */
 package controller;
 
+import view.AppFrame;
+
 /**
  *
  * @author tim
  */
 public class Controller {
+    
+    private AppFrame frame;
+    
+    public Controller() {
+        frame = new AppFrame();
+    }
     
 }
