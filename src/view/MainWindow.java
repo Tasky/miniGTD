@@ -11,20 +11,20 @@ import static view.LayoutConstants.*;
  *
  * @author tim
  */
-public class AppFrame extends JFrame {
+public class MainWindow extends JFrame {
     
-    private NavPane navpane;
+    private FilterPanel navpane;
     private ContentPane contentpane;
     
-    public AppFrame() {
+    public MainWindow() {
         super(APP_NAME);
         setLayout(null);
-        setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        setBounds(0, 0, MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);
         setLocationRelativeTo(null);
         setResizable(false);
         
-        add(navpane = new NavPane(0, 0, NAVPANE_WIDTH, NAVPANE_HEIGHT));
-        add(contentpane = new ContentPane(NAVPANE_WIDTH, 0, CONTENTPANE_WIDTH, CONTENTPANE_HEIGHT));
+        add(navpane = new FilterPanel(0, 0, FILTERPANEL_WIDTH, FILTERPANEL_HEIGHT));
+        add(contentpane = new ContentPane(FILTERPANEL_WIDTH, 0, CONTENTPANE_WIDTH, CONTENTPANE_HEIGHT));
         
         setVisible(true);
     }

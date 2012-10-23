@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.content;
 
-import java.awt.Color;
 import javax.swing.JPanel;
 import static view.LayoutConstants.*;
 
@@ -12,13 +11,9 @@ import static view.LayoutConstants.*;
  *
  * @author tim
  */
-public class NavPane extends JPanel {
+public class Thought extends JPanel {
     
-    public NavPane(int x, int y, int w, int h) {
-        super(null);
-
-        setBounds(x, y, w, h);
-        setBackground(Color.BLACK);
+    public Thought() {
         
     }
     

@@ -4,7 +4,7 @@
  */
 package controller;
 
-import view.AppFrame;
+import view.MainWindow;
 
 /**
  *
@@ -12,10 +12,10 @@ import view.AppFrame;
  */
 public class Controller {
     
-    private AppFrame frame;
+    private MainWindow frame;
     
     public Controller() {
-        frame = new AppFrame();
+        frame = new MainWindow();
     }
     
 }
