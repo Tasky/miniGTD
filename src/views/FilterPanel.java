@@ -6,14 +6,15 @@ package views;
 
 import java.awt.Color;
 import javax.swing.JPanel;
+import static views.LayoutConstants.*;
 
 /**
  *
  * @author tim
  */
-public class NavPane extends JPanel {
+public class FilterPanel extends JPanel {
     
-    public NavPane(int x, int y, int w, int h) {
+    public FilterPanel(int x, int y, int w, int h) {
         super(null);
 
         setBounds(x, y, w, h);

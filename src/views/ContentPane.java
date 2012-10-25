@@ -4,8 +4,10 @@
  */
 package views;
 
-import views.content.NoteAdd;
+import views.content.Thought;
+import views.content.CreatePanel;
 import java.awt.Color;
+import java.util.Stack;
 import javax.swing.JPanel;
 import static views.LayoutConstants.*;
 
@@ -15,7 +17,7 @@ import static views.LayoutConstants.*;
  */
 public class ContentPane extends JPanel {
     
-    private NoteAdd noteadd;
+    private CreatePanel noteadd;
     
     public ContentPane(int x, int y, int w, int h) {
         super(null);
@@ -23,8 +25,9 @@ public class ContentPane extends JPanel {
         setBounds(x, y, w, h);
         setBackground(Color.red);
 
+        add(noteadd = new CreatePanel(0, 0, CREATEPANEL_WIDTH, CREATEPANEL_HEIGHT));
         
-        add(noteadd = new NoteAdd(0, 0, NOTEADD_WIDTH, NOTEADD_HEIGHT));
+        
     }
     
 }
