@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package views;
 
-import view.content.NoteAdd;
+import views.content.NoteAdd;
 import java.awt.Color;
 import javax.swing.JPanel;
-import static view.LayoutConstants.*;
+import static views.LayoutConstants.*;
 
 /**
  *
@@ -22,7 +22,7 @@ public class ContentPane extends JPanel {
         
         setBounds(x, y, w, h);
         setBackground(Color.red);
-        this.
+
         
         add(noteadd = new NoteAdd(0, 0, NOTEADD_WIDTH, NOTEADD_HEIGHT));
     }

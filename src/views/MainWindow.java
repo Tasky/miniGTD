@@ -2,21 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package views;
 
 import javax.swing.JFrame;
-import static view.LayoutConstants.*;
+import static views.LayoutConstants.*;
 
 /**
  *
  * @author tim
  */
-public class AppFrame extends JFrame {
+public class MainWindow extends JFrame {
     
     private NavPane navpane;
     private ContentPane contentpane;
     
-    public AppFrame() {
+    public MainWindow() {
         super(APP_NAME);
         setLayout(null);
         setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
