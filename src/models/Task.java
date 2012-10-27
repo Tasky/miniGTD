@@ -23,7 +23,7 @@ public class Task {
     private boolean done;
     private boolean isNew = true;
 
-    private final String SQL = "actions.id as id, " +
+    private static final String SQL = "actions.id as id, " +
             "contexts.name as context, " +
             "projects.name as project, " +
             "status.name as status, " +
