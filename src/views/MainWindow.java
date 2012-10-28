@@ -33,14 +33,16 @@ public class MainWindow extends JFrame {
         GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,new Insets(0, 0, 0, 0), 0, 0);
 
         navpane = new FilterPanel(controller);
-        navpane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
         // Layout configuration for filter panel
         c.gridx = 1;
         c.weightx = 0;
         c.fill = GridBagConstraints.VERTICAL;
 
         navpane.setMinimumSize(new Dimension(200, 400));
-        add(navpane, c);
+        JScrollPane scroller = new JScrollPane(navpane);
+        scroller.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
+        scroller.setMinimumSize(new Dimension(200, 400));
+        add(scroller, c);
 
         contentpane = new ContentPanel(controller);
         // Layout configuration for content panel
