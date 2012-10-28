@@ -67,7 +67,7 @@ public class Task {
             try {
                 assert statement != null;
                 statement.close();
-            } catch (SQLException e) { }
+            } catch (SQLException ignored) { }
         }
     }
 
@@ -202,7 +202,7 @@ public class Task {
                 assert statement != null;
                 try {
                     statement.close();
-                } catch (SQLException e) { }
+                } catch (SQLException ignored) { }
             }
     }
 
