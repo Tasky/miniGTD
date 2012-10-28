@@ -4,6 +4,7 @@
  */
 package views;
 
+import controller.Controller;
 import views.content.Thought;
 import views.content.CreatePanel;
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class ContentPanel extends JPanel {
     
     private CreatePanel noteadd;
     
-    public ContentPanel() {
+    public ContentPanel(Controller controller) {
         super(null);
 
         setBackground(new Color(186, 208, 244));
@@ -30,5 +31,4 @@ public class ContentPanel extends JPanel {
         add(noteadd);
         
     }
-    
 }

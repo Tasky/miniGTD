@@ -4,6 +4,8 @@
  */
 package views;
 
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,7 +20,7 @@ public class MainWindow extends JFrame {
     private FilterPanel navpane;
     private ContentPanel contentpane;
 
-    public MainWindow() {
+    public MainWindow(Controller controller) {
         super(APP_NAME);
         setLayout(null);
         setBounds(0, 0, MAINWINDOW_WIDTH, MAINWINDOW_HEIGHT);
@@ -30,7 +32,7 @@ public class MainWindow extends JFrame {
         // Default GridBagConstraints
         GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,new Insets(0, 0, 0, 0), 0, 0);
 
-        navpane = new FilterPanel();
+        navpane = new FilterPanel(controller);
         navpane.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
         // Layout configuration for filter panel
         c.gridx = 1;
@@ -40,7 +42,7 @@ public class MainWindow extends JFrame {
         navpane.setMinimumSize(new Dimension(200, 400));
         add(navpane, c);
 
-        contentpane = new ContentPanel();
+        contentpane = new ContentPanel(controller);
         // Layout configuration for content panel
         c.gridx = 2;
         c.weightx = 1;
