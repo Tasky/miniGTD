@@ -4,43 +4,91 @@
  */
 package views;
 
+import controller.Controller;
+
 import java.awt.*;
+import java.awt.event.*;
+import java.util.Stack;
 import javax.swing.*;
 import javax.swing.border.Border;
 
 public class FilterPanel extends JPanel {
+    private Stack<Tab> tabs = new Stack<Tab>();
 
-    public FilterPanel() {
+    public FilterPanel(Controller controller) {
         super(null);
 
-        //setBounds(x, y, w, h);
-//        JScrollPane listScroller = new JScrollPane(list);
-//        listScroller.setPreferredSize(new Dimension(250, 80));
-//        listScroller.setAlignmentX(LEFT_ALIGNMENT);
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//        setLayout(new GridLayout(0,1));
-        setBackground(new Color(230,238,251));
+        setBackground(new Color(230, 238, 251));
 
         add(new Header("Verzamelen"));
-        add(new Tab("inbox_empty.png", "Inbox (2)"));
+        tabs.push(new Tab("inbox_empty.png", "Inbox (2)"));
+        add(tabs.peek());
 
         add(new Header("Focus"));
-        Tab tab = new Tab("star.png", "Vandaag (2)");
-        add(tab);
-        tab.setActive();
-        add(new Tab("date_next.png", "Volgende"));
-        add(new Tab("date_task.png", "Gepland"));
-        add(new Tab("box_open.png", "Ooit"));
+        tabs.push(new Tab("star.png", "Vandaag (2)"));
+        add(tabs.peek());
+        tabs.push(new Tab("date_next.png", "Volgende"));
+        add(tabs.peek());
+        tabs.push(new Tab("date_task.png", "Gepland"));
+        add(tabs.peek());
+        tabs.push(new Tab("box_open.png", "Ooit"));
+        add(tabs.peek());
 
         add(new Header("Projecten"));
-        add(new Tab("to_do_list.png", "Java5"));
-        add(new Tab("to_do_list.png", "Bedrijf starten"));
+        class ProjectPopup extends JPopupMenu {
+            public ProjectPopup(){
+                add(new JMenuItem("Hernoemen"));
+                add(new JMenuItem("Verwijderen"));
+            }
+        }
+        for (int i = 0; i < 100; i++) {
+            Tab tab = new Tab("to_do_list.png", "Java5");
+            tab.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent mouseEvent) {
+                    if (mouseEvent.isPopupTrigger()) doPop(mouseEvent);
+                }
+                @Override
+                public void mouseReleased(MouseEvent e){
+                    if (e.isPopupTrigger()) doPop(e);
+                }
+
+                private void doPop(MouseEvent e){
+                    ProjectPopup menu = new ProjectPopup();
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            });
+
+            tabs.push(tab);
+            add(tab);
+        }
 
         add(new Header("Archief"));
-        add(new Tab("book.png", "Logboek"));
-        add(new Tab("bin_closed.png", "Prullenbak"));
+        tabs.push(new Tab("book.png", "Logboek"));
+        add(tabs.peek());
+        tabs.push(new Tab("bin_closed.png", "Prullenbak"));
+        add(tabs.peek());
+        tabs.get(0).setActive(true);
+        final MouseListener click = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                if(mouseEvent.isPopupTrigger()) return;
+                Object source = mouseEvent.getSource();
+                if (source instanceof Tab) {
+                    for(Tab tab : tabs) {
+                        tab.setActive(false);
+                    }
+                    Tab tab = (Tab) source;
+                    tab.setActive(true);
+                }
+            }
+        };
+        for(Tab tab : tabs) {
+            tab.addMouseListener(click);
+        }
     }
+
     private class Header extends JLabel {
         public Header(String text) {
             super(text);
@@ -50,6 +98,7 @@ public class FilterPanel extends JPanel {
             setBorder(padding);
         }
     }
+
     private class Tab extends JLabel {
         public Tab(String image, String text) {
             super();
@@ -62,11 +111,17 @@ public class FilterPanel extends JPanel {
             size.width = 150;
             setMaximumSize(size);
             setPreferredSize(size);
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
-        public void setActive() {
-            setOpaque(true);
-            setBackground(new Color(197, 186, 244));
-//            setFont(new Font("Sans-serif", Font.BOLD, 11));
+
+        public void setActive(boolean b) {
+            if(b) {
+                setBackground(new Color(197, 186, 244));
+                setOpaque(true);
+            } else {
+                setBackground(null);
+                setOpaque(false);
+            }
         }
     }
 }

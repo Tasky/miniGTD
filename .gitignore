@@ -4,6 +4,7 @@
 #ignore IDE stuff
 build/
 dist/
+out/
 nbproject/private/
 *.iml
 *.ipr

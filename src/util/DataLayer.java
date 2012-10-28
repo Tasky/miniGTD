@@ -14,9 +14,9 @@ public class DataLayer {
     public static Connection getConnection() {
         if (con == null) {
             try {
-                con = DriverManager.getConnection("jdbc:mysql://localhost/minigtd",
-                        "minigtd",
-                        "laOaPnToLCMoAivB9IEhW0sdqK9TsK");
+                con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/tslot_db",
+                        "tslot",
+                        "b8I54LMZ");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
