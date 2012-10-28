@@ -36,11 +36,33 @@ public class FilterPanel extends JPanel {
         add(tabs.peek());
 
         add(new Header("Projecten"));
-//        JScrollPane listScroller = new JScrollPane(list);
-        tabs.push(new Tab("to_do_list.png", "Java5"));
-        add(tabs.peek());
-        tabs.push(new Tab("to_do_list.png", "Bedrijf starten"));
-        add(tabs.peek());
+        class ProjectPopup extends JPopupMenu {
+            public ProjectPopup(){
+                add(new JMenuItem("Hernoemen"));
+                add(new JMenuItem("Verwijderen"));
+            }
+        }
+        for (int i = 0; i < 100; i++) {
+            Tab tab = new Tab("to_do_list.png", "Java5");
+            tab.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent mouseEvent) {
+                    if (mouseEvent.isPopupTrigger()) doPop(mouseEvent);
+                }
+                @Override
+                public void mouseReleased(MouseEvent e){
+                    if (e.isPopupTrigger()) doPop(e);
+                }
+
+                private void doPop(MouseEvent e){
+                    ProjectPopup menu = new ProjectPopup();
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            });
+
+            tabs.push(tab);
+            add(tab);
+        }
 
         add(new Header("Archief"));
         tabs.push(new Tab("book.png", "Logboek"));
@@ -51,6 +73,7 @@ public class FilterPanel extends JPanel {
         final MouseListener click = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
+                if(mouseEvent.isPopupTrigger()) return;
                 Object source = mouseEvent.getSource();
                 if (source instanceof Tab) {
                     for(Tab tab : tabs) {
