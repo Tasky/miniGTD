@@ -3,6 +3,7 @@
 
 #ignore IDE stuff
 build/
+dist/
 nbproject/private/
 *.iml
 *.ipr
