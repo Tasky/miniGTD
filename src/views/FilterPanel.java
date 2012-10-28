@@ -14,10 +14,10 @@ import static views.LayoutConstants.*;
  */
 public class FilterPanel extends JPanel {
     
-    public FilterPanel(int x, int y, int w, int h) {
+    public FilterPanel() {
         super(null);
 
-        setBounds(x, y, w, h);
+        //setBounds(x, y, w, h);
         setBackground(Color.BLACK);
         
     }

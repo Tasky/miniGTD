@@ -15,14 +15,13 @@ import static views.LayoutConstants.*;
  *
  * @author tim
  */
-public class ContentPane extends JPanel {
+public class ContentPanel extends JPanel {
     
     private CreatePanel noteadd;
     
-    public ContentPane(int x, int y, int w, int h) {
+    public ContentPanel() {
         super(null);
-        
-        setBounds(x, y, w, h);
+
         setBackground(Color.red);
 
         add(noteadd = new CreatePanel(0, 0, CREATEPANEL_WIDTH, CREATEPANEL_HEIGHT));
