@@ -21,11 +21,11 @@ public class CreatePanel extends JPanel {
     private JLabel label;
     private JButton addButton;
    
-    public CreatePanel(int x, int y, int w, int h) {
+    public CreatePanel() {
         super(null);
-        
-        setBounds(x, y, w, h);
-        setBackground(Color.blue);
+//GroupLayout: http://docs.oracle.com/javase/tutorial/uiswing/layout/group.html
+//        setLayout();
+        setBackground(Color.white);
         
         initComponents();
     }

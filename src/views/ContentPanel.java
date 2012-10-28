@@ -8,7 +8,8 @@ import views.content.Thought;
 import views.content.CreatePanel;
 import java.awt.Color;
 import java.util.Stack;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import static views.LayoutConstants.*;
 
 /**
@@ -22,10 +23,11 @@ public class ContentPanel extends JPanel {
     public ContentPanel() {
         super(null);
 
-        setBackground(Color.red);
+        setBackground(new Color(186, 208, 244));
 
-        add(noteadd = new CreatePanel(0, 0, CREATEPANEL_WIDTH, CREATEPANEL_HEIGHT));
-        
+        noteadd = new CreatePanel();
+        noteadd.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
+        add(noteadd);
         
     }
     
