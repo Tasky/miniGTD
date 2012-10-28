@@ -4,7 +4,7 @@
  */
 package controller;
 
-import view.MainWindow;
+import views.MainWindow;
 
 /**
  *

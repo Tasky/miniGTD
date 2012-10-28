@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package views;
 
 import java.awt.Color;
 import javax.swing.JPanel;
-import static view.LayoutConstants.*;
+import static views.LayoutConstants.*;
 
 /**
  *
@@ -14,10 +14,10 @@ import static view.LayoutConstants.*;
  */
 public class FilterPanel extends JPanel {
     
-    public FilterPanel(int x, int y, int w, int h) {
+    public FilterPanel() {
         super(null);
 
-        setBounds(x, y, w, h);
+        //setBounds(x, y, w, h);
         setBackground(Color.BLACK);
         
     }
