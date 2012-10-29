@@ -4,6 +4,7 @@ import util.DataLayer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import util.exceptions.ConnectionException;
 
 /**
  * Author: tim
@@ -74,17 +75,21 @@ public class Thought {
         statement.close();
     }
     
-    public static List<Thought> getAllThoughts() throws SQLException {
+    public static List<Thought> getAllThoughts() throws ConnectionException {
         List<Thought> list = new ArrayList<Thought>();
         PreparedStatement statement = null;
         
-        statement.getConnection().prepareStatement("SELECT id, notes FROM thoughts").execute();
-        ResultSet res = statement.getResultSet();
-        
-        while(res.next()) {
-            Thought t = new Thought();
-            t.fromResultSet(res);
-            list.add(t);
+        try{
+            statement.getConnection().prepareStatement("SELECT id, notes FROM thoughts").execute();
+            ResultSet res = statement.getResultSet();
+
+            while(res.next()) {
+                Thought t = new Thought();
+                t.fromResultSet(res);
+                list.add(t);
+            }
+        }catch(SQLException e) {
+            e.printStackTrace();
         }
         
         return list;
