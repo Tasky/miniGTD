@@ -21,7 +21,7 @@ public class Thought extends JPanel {
         buttonPanel.setOpaque(false);
         // TODO: knopjes werkend maken
         buttonPanel.add(new JButton("Maak actie"), "span");
-        buttonPanel.add(new JButton("Weg ermee"));
+        buttonPanel.add(new JButton("Weggooien"));
         add(buttonPanel);
     }
 
