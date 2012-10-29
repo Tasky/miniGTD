@@ -30,7 +30,11 @@ public class Controller {
             } else if (action.equals("today")) {
                 frame.showTasks(Task.where(Task.Filter.TODAY));
             } else if (action.equals("next")) {
-                frame.showTasks(Task.all());
+                frame.showTasks(Task.where(Task.Filter.NEXT));
+            } else if (action.equals("planned")) {
+                frame.showTasks(Task.where(Task.Filter.PLANNED));
+            } else if (action.equals("ever")) {
+                frame.showTasks(Task.where(Task.Filter.EVER));
             }
         } catch (ConnectionException e) {
             frame.showConnectionError();
