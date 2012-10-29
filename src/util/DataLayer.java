@@ -12,14 +12,15 @@ import java.util.List;
 public class DataLayer {
     private static Connection con;
     public static Connection getConnection() {
-        if (con == null) {
-            try {
-                con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/tslot_db",
-                        "tslot",
-                        "b8I54LMZ");
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            if (con == null || con.isClosed()) {
+                    con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/tslot_db",
+                            "tslot",
+                            "b8I54LMZ");
+
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return con;
     }
