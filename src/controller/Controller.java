@@ -26,7 +26,7 @@ public class Controller {
         try {
             if (action.equals("")) {
             } else {
-                frame.showThoughts(Thought.getAllThoughts());
+                frame.showThoughts(Thought.all());
             }
         } catch (ConnectionException e) {
             frame.showConnectionError();

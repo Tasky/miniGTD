@@ -76,7 +76,7 @@ public class Task implements Item {
      * @return list of tasks
      * @throws ConnectionException when the connection fails.
      */
-    public static List<Task> getAllTasks() throws ConnectionException {
+    public static List<Task> all() throws ConnectionException {
         Statement stmt = null;
         try {
             stmt = DataLayer.getConnection().createStatement(
