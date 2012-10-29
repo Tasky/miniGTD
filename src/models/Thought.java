@@ -2,6 +2,8 @@ package models;
 
 import util.DataLayer;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: tim
@@ -71,6 +73,30 @@ public class Thought {
         statement.execute();
         statement.close();
     }
+    
+    public static List<Thought> getAllThoughts() throws SQLException {
+        List<Thought> list = new ArrayList<Thought>();
+        PreparedStatement statement = null;
+        
+        statement.getConnection().prepareStatement("SELECT id, notes FROM thoughts").execute();
+        ResultSet res = statement.getResultSet();
+        
+        while(res.next()) {
+            Thought t = new Thought();
+            t.fromResultSet(res);
+            list.add(t);
+        }
+        
+        return list;
+    }
+    
+    private void fromResultSet(ResultSet rs) throws SQLException {
+        this.isNew = false;
+        this.id = rs.getInt("id");
+        this.notes = rs.getString("notes");
+    }
+    
+    
 
     public String getNotes() {
         return notes;
