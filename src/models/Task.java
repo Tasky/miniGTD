@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Author: nanne
  */
-public class Task {
+public class Task implements Item {
     private int id = -1;
     private String description;
     private String status;

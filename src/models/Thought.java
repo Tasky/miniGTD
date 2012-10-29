@@ -9,7 +9,7 @@ import util.exceptions.ConnectionException;
 /**
  * Author: tim
  */
-public class Thought {
+public class Thought implements Item {
     private String notes = "";
     private boolean isNew;
     private int id = -1;
