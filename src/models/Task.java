@@ -33,8 +33,26 @@ public class Task implements Item {
             "actions.notes as notes, " +
             "actions.statuschange_date as statuschange_date ";
 
+    /**
+     * Set all properties from a resultset.
+     * @param result Result set from SQL constant.
+     * @throws SQLException when a field does not exist
+     */
+    private void fromResultSet(ResultSet result) throws SQLException {
+        isNew = false;
+        this.id = result.getInt(1);
+        this.context = result.getString(2);
+        this.project = result.getString(3);
+        this.status = result.getString(4);
+        this.action_date = result.getDate(5);
+        this.description = result.getString(6);
+        this.done = result.getBoolean(7);
+        this.notes = result.getString(8);
+        this.statuschange_date = result.getDate(9);
+    }
+
     public enum Filter {
-        TODAY("action_date <= NOW()");
+        TODAY("action_date <= NOW()"), NEXT("1"), PLANNED("1"), EVER("1");
 
         private final String where;
 
@@ -143,22 +161,6 @@ public class Task implements Item {
         }
     }
 
-    /**
-     * Set all properties from a resultset.
-     * @param result Result set from SQL constant.
-     * @throws SQLException when a field does not exist
-     */
-    private void fromResultSet(ResultSet result) throws SQLException {
-        isNew = false;
-        this.id = result.getInt(1);
-        this.context = result.getString(2);
-        this.project = result.getString(3);
-        this.status = result.getString(4);
-        this.action_date = result.getDate(5);
-        this.description = result.getString(6);
-        this.done = result.getBoolean(7);
-        this.statuschange_date = result.getDate(8);
-    }
 
     /**
      * Remove a task from the database, after removing you can add the task with save().
