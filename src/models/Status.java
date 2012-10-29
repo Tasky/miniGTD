@@ -26,21 +26,20 @@ public class Status {
         List<Status> list = new ArrayList<Status>();
         PreparedStatement statement = null;
             
-        try{
-
+        try {
             statement = DataLayer.getConnection().prepareStatement("SELECT id, name FROM statuses");
             statement.execute();
             ResultSet res = statement.getResultSet();
-            statement.close();
 
             while(res.next()) {
                 Status t = new Status();
                 t.fromResultSet(res);
                 list.add(t);
             }
+            statement.close();
             return list;
         }catch(SQLException e) {
-            throw new ConnectionException();
+            throw new ConnectionException(e.getMessage());
         }
     }
     
