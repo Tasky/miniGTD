@@ -40,7 +40,19 @@ public class Thought {
             e.printStackTrace();
         }
     }
-    public void remove() {}
+    public void remove() throws SQLException {
+        PreparedStatement statement = null;
+        
+        if(id > 0) {
+            statement = DataLayer.getConnection().prepareStatement("DELETE FROM thoughts WHERE id = ? LIMIT 1");
+            statement.setInt(1, id);
+            statement.execute();
+            statement.close();
+        }else
+            throw new SQLException("Not a valid ID");
+        
+    }
+    
     public static void create(String notes) throws SQLException {
         PreparedStatement statement = null;
         
