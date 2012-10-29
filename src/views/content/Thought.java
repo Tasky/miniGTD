@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Thought extends JPanel {
-    
+
     public Thought(models.Thought thought) {
         setOpaque(false);
         setLayout(new MigLayout("", "[grow][]", "[]"));
@@ -20,8 +20,12 @@ public class Thought extends JPanel {
         buttonPanel.setLayout(new MigLayout("ins 0"));
         buttonPanel.setOpaque(false);
         // TODO: knopjes werkend maken
-        buttonPanel.add(new JButton("Maak actie"), "span");
-        buttonPanel.add(new JButton("Weggooien"));
+        JButton btnOpslaan = new JButton("Opslaan");
+        btnOpslaan.setEnabled(false);
+        buttonPanel.add(btnOpslaan, "span, growx");
+        buttonPanel.add(new JButton("Maak actie"), "span, growx");
+        buttonPanel.add(new JButton("Weggooien"), "span, growx");
+
         add(buttonPanel);
     }
 
