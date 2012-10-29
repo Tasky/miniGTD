@@ -10,6 +10,7 @@ import models.Task;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 import java.awt.*;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class TaskForm extends JPanel {
 
     public TaskForm(Controller controller) {
         super(null);
+        setLayout(new MigLayout("", "[][grow]", ""));
 
         description = new JTextField();
         notes = new JTextArea(3, 20);
@@ -42,6 +44,7 @@ public class TaskForm extends JPanel {
     }
     public TaskForm(Controller controller, Task task) {
         super(null);
+        setLayout(new MigLayout("ins 0", "[][grow]", ""));
 
         description = new JTextField(task.getDescription());
         notes = new JTextArea(3, 20);
@@ -59,6 +62,8 @@ public class TaskForm extends JPanel {
     }
 
     private void generateForm() {
+        dateChooser.setLocale(getLocale());
+        dateChooser.setFormats(DateFormat.getDateInstance());
 //        dateChooser.setDateFormatString("dd-MM-yyyy");
 //        dateChooser.setMaximumSize(new Dimension(150, 20));
 //        dateChooser.getJCalendar().setMaximumSize(new Dimension(150, 20));//.setBackground(Color.black);
@@ -66,7 +71,7 @@ public class TaskForm extends JPanel {
 
 //        dateChooser.getDateEditor().getUiComponent().setBackground(Color.black);
 //        dateChooser.setUI(new javax.swing.plaf.basic.BasicPanelUI());
-        setLayout(new MigLayout("", "[][grow]", ""));
+
         setBackground(Color.white);
         add(new JLabel("Actie:"));
         add(description, "span, grow");

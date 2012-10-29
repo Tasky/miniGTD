@@ -29,7 +29,8 @@ public class TaskItem extends JPanel {
                 if (mouseEvent.isPopupTrigger()) return;
                 removeAll();
 //                add(new JLabel("TEST"));
-                add(new TaskForm(controller, task));
+                setLayout(new MigLayout("", "[grow]"));
+                add(new TaskForm(controller, task), "grow");
                 revalidate();
                 repaint();
             }
