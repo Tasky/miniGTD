@@ -141,7 +141,34 @@ public class Task implements Item {
     }
 
     /**
+     * Get a count of tasks.
+     * @param filter the filter
+     * @return count
+     * @throws ConnectionException database problems
+     */
+    public static Integer count(Filter filter) throws ConnectionException {
+        try {
+            Statement stmt = DataLayer.getConnection().createStatement(
+                    ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_READ_ONLY
+            );
+            ResultSet rs = stmt.executeQuery("select count(*) from actions " +
+                    "left join contexts on context_id = contexts.id " +
+                    "left join projects on project_id = projects.id " +
+                    "left join statuses on status_id = statuses.id " +
+                    "where " + filter.getWhere());
+            if(rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new ConnectionException(e.getMessage());
+        }
+    }
+
+    /**
      * Get back all tasks filtered by given filter.
+     *
      * @param filter The filter.
      * @return list of tasks
      * @throws ConnectionException when the connection fails.
