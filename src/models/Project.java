@@ -9,21 +9,22 @@ import util.exceptions.ConnectionException;
 /**
  * Author: tim
  */
-public class Context implements Item {
+public class Project implements Item {
     private String name = "";
+    private String note = "";
     private boolean isNew;
     private int id = -1;
 
-    public Context(String name) {
+    public Project(String name) {
         this.name = name;
         this.isNew = true;
     }
     
-    public Context(int id) {
+    public Project(int id) {
         //TODO: get info from SQL
     }
     
-    public Context() {
+    public Project() {
         
     }
 
@@ -36,8 +37,9 @@ public class Context implements Item {
         
         if(isNew) {
             try {
-                statement = DataLayer.getConnection().prepareStatement("INSERT INTO contexts SET notes = ?");
+                statement = DataLayer.getConnection().prepareStatement("INSERT INTO projects SET name = ?, notes = ?");
                 statement.setString(1, name);
+                statement.setString(2, note);
                 statement.executeQuery();
                 ResultSet res = statement.getGeneratedKeys();
                 this.id = res.getInt(1);
@@ -46,9 +48,10 @@ public class Context implements Item {
             }
         }else if(id > 0){
             try {
-                statement = DataLayer.getConnection().prepareStatement("UPDATE contexts SET name = ? WHERE id = ?");
+                statement = DataLayer.getConnection().prepareStatement("UPDATE projects SET name = ?, notes = ? WHERE id = ?");
                 statement.setString(1, name);
-                statement.setInt(2, id);
+                statement.setString(2, note);
+                statement.setInt(3, id);
                 statement.execute();
             } catch (SQLException ex) {
                 throw new ConnectionException();
@@ -66,7 +69,7 @@ public class Context implements Item {
         
         if(id > 0) {
             try {
-                statement = DataLayer.getConnection().prepareStatement("DELETE FROM contexts WHERE id = ? LIMIT 1");
+                statement = DataLayer.getConnection().prepareStatement("DELETE FROM projects WHERE id = ? LIMIT 1");
                 statement.setInt(1, id);
                 statement.execute();
                 statement.close();
@@ -78,12 +81,13 @@ public class Context implements Item {
         
     }
     
-    public static void create(String notes) throws ConnectionException {
+    public static void create(String name, String note) throws ConnectionException {
         try {
             PreparedStatement statement = null;
             
-            statement = DataLayer.getConnection().prepareStatement("INSERT INTO contexts SET notes = ?");
-            statement.setString(1, notes);
+            statement = DataLayer.getConnection().prepareStatement("INSERT INTO projects SET name = ?, notes = ?");
+            statement.setString(1, name);
+            statement.setString(2, note);
             statement.execute();
             statement.close();
         } catch (SQLException ex) {
@@ -91,18 +95,18 @@ public class Context implements Item {
         }
     }
     
-    public static List<Context> all() throws ConnectionException {
-        List<Context> list = new ArrayList<Context>();
+    public static List<Project> all() throws ConnectionException {
+        List<Project> list = new ArrayList<Project>();
         PreparedStatement statement = null;
             
         try{
 
-            statement = DataLayer.getConnection().prepareStatement("SELECT id, name FROM contexts");
+            statement = DataLayer.getConnection().prepareStatement("SELECT id, name, notes FROM projects");
             statement.execute();
             ResultSet res = statement.getResultSet();
 
             while(res.next()) {
-                Context t = new Context();
+                Project t = new Project();
                 t.fromResultSet(res);
                 list.add(t);
             }
@@ -117,6 +121,7 @@ public class Context implements Item {
         this.isNew = false;
         this.id = rs.getInt("id");
         this.name = rs.getString("name");
+        this.note = rs.getString("notes");
     }
     
     
@@ -125,7 +130,11 @@ public class Context implements Item {
         return name;
     }
 
-    public void setNotes(String name) {
+    public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setNote(String note) {
+        this.note = note;
     }
 }
