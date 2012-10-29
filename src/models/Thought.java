@@ -31,20 +31,28 @@ public class Thought implements Item {
         return this.notes;
     }
     
-    public void save() throws SQLException {
+    public void save() throws ConnectionException {
         PreparedStatement statement = null;
         
         if(isNew) {
-            statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
-            statement.setString(1, notes);
-            statement.executeQuery();
-            ResultSet res = statement.getGeneratedKeys();
-            this.id = res.getInt(1);
+            try {
+                statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
+                statement.setString(1, notes);
+                statement.executeQuery();
+                ResultSet res = statement.getGeneratedKeys();
+                this.id = res.getInt(1);
+            } catch (SQLException ex) {
+                throw new ConnectionException();
+            }
         }else if(id > 0){
-            statement = DataLayer.getConnection().prepareStatement("UPDATE thoughts SET notes = ? WHERE id = ?");
-            statement.setString(1, notes);
-            statement.setInt(2, id);
-            statement.execute();
+            try {
+                statement = DataLayer.getConnection().prepareStatement("UPDATE thoughts SET notes = ? WHERE id = ?");
+                statement.setString(1, notes);
+                statement.setInt(2, id);
+                statement.execute();
+            } catch (SQLException ex) {
+                throw new ConnectionException();
+            }
         }
         
         try{
@@ -53,26 +61,34 @@ public class Thought implements Item {
             e.printStackTrace();
         }
     }
-    public void remove() throws SQLException {
+    public void remove() throws ConnectionException {
         PreparedStatement statement = null;
         
         if(id > 0) {
-            statement = DataLayer.getConnection().prepareStatement("DELETE FROM thoughts WHERE id = ? LIMIT 1");
-            statement.setInt(1, id);
-            statement.execute();
-            statement.close();
+            try {
+                statement = DataLayer.getConnection().prepareStatement("DELETE FROM thoughts WHERE id = ? LIMIT 1");
+                statement.setInt(1, id);
+                statement.execute();
+                statement.close();
+            } catch (SQLException ex) {
+               throw new ConnectionException();
+            }
         }else
-            throw new SQLException("Not a valid ID");
+            throw new ConnectionException();
         
     }
     
-    public static void create(String notes) throws SQLException {
-        PreparedStatement statement = null;
-        
-        statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
-        statement.setString(1, notes);
-        statement.execute();
-        statement.close();
+    public static void create(String notes) throws ConnectionException {
+        try {
+            PreparedStatement statement = null;
+            
+            statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
+            statement.setString(1, notes);
+            statement.execute();
+            statement.close();
+        } catch (SQLException ex) {
+            throw new ConnectionException();
+        }
     }
     
     public static List<Thought> getAllThoughts() throws ConnectionException {
