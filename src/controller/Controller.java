@@ -4,10 +4,10 @@
  */
 package controller;
 
+import models.Task;
 import models.Thought;
 import util.exceptions.ConnectionException;
 import views.MainWindow;
-import java.util.List;
 
 /**
  *
@@ -24,12 +24,25 @@ public class Controller {
 
     public void open(String action) {
         try {
-            if (action.equals("")) {
-            } else {
+            frame.setTitle(getActionName(action));
+            if (action.equals("inbox")) {
                 frame.showThoughts(Thought.all());
+            } else if (action.equals("today")) {
+                frame.showTasks(Task.all());
             }
         } catch (ConnectionException e) {
             frame.showConnectionError();
+            e.printStackTrace();
+        }
+    }
+
+    public String getActionName(String action) {
+        if (action.equals("inbox")) {
+            return "Inbox (2)";
+        } else if (action.equals("today")) {
+            return "Vandaag";
+        } else {
+            return "";
         }
     }
 }

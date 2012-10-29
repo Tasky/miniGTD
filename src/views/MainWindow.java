@@ -60,4 +60,10 @@ public class MainWindow extends JFrame {
     public void showTasks(List<Task> tasks) {
         contentpane.showTasks(tasks);
     }
+
+    @Override
+    public void setTitle(String title) {
+        if (!title.isEmpty()) title += " - ";
+        super.setTitle(title + "miniGTD");
+    }
 }
