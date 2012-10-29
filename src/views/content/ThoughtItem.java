@@ -7,9 +7,8 @@ package views.content;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class ThoughtItem extends JPanel {
+public class ThoughtItem extends ItemPanel {
 
     public ThoughtItem(models.Thought thought) {
         setOpaque(false);
@@ -27,18 +26,5 @@ public class ThoughtItem extends JPanel {
         buttonPanel.add(new JButton("Weggooien"), "span, growx");
 
         add(buttonPanel);
-    }
-
-    @Override
-    public void paint(Graphics g2) {
-        Graphics2D g = (Graphics2D) g2;
-        Dimension originalSize = super.getSize();
-
-        // rounded corners
-        g.setColor(Color.white);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.fillRoundRect(0, 0, originalSize.width, originalSize.height, 10, 10);
-        // draw the rest
-        super.paint(g);
     }
 }
