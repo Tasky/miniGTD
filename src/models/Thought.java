@@ -1,19 +1,35 @@
 package models;
 
+import util.DataLayer;
+import java.sql.*;
+
 /**
  * Author: nanne
  */
 public class Thought {
     private String notes;
+    private boolean isNew;
 
     public Thought(String notes) {
         this.notes = notes;
+        this.isNew = true;
+    }
+    
+    public Thought() {
+        
     }
 
     public void toTask() {}
     public void save() {}
     public void remove() {}
-    public static void create() {}
+    public static void create(String notes) throws SQLException {
+        PreparedStatement statement = null;
+        
+        statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
+        statement.setString(1, notes);
+        statement.execute();
+        statement.close();
+    }
 
     public String getNotes() {
         return notes;
