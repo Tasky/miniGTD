@@ -28,6 +28,8 @@ public class Controller {
             if (action.equals("inbox")) {
                 frame.showThoughts(Thought.all());
             } else if (action.equals("today")) {
+                frame.showTasks(Task.where(Task.Filter.TODAY));
+            } else if (action.equals("next")) {
                 frame.showTasks(Task.all());
             }
         } catch (ConnectionException e) {

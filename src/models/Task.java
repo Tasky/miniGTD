@@ -33,6 +33,20 @@ public class Task implements Item {
             "actions.notes as notes, " +
             "actions.statuschange_date as statuschange_date ";
 
+    public enum Filter {
+        TODAY("action_date <= NOW()");
+
+        private final String where;
+
+        Filter(String where) {
+
+            this.where = where;
+        }
+
+        public String getWhere() {
+            return where;
+        }
+    }
     /**
      * New empty task
      */
@@ -77,9 +91,8 @@ public class Task implements Item {
      * @throws ConnectionException when the connection fails.
      */
     public static List<Task> all() throws ConnectionException {
-        Statement stmt = null;
         try {
-            stmt = DataLayer.getConnection().createStatement(
+            Statement stmt = DataLayer.getConnection().createStatement(
                     ResultSet.TYPE_FORWARD_ONLY,
                     ResultSet.CONCUR_READ_ONLY
             );
@@ -88,6 +101,36 @@ public class Task implements Item {
                     "left join contexts on context_id = contexts.id " +
                     "left join projects on project_id = projects.id " +
                     "left join statuses on status_id = statuses.id");
+            List<Task> tasks = new ArrayList<Task>();
+            while (rs.next()) {
+                Task t = new Task();
+                t.fromResultSet(rs);
+                tasks.add(t);
+            }
+            return tasks;
+        } catch (SQLException e) {
+            throw new ConnectionException(e.getMessage());
+        }
+    }
+
+    /**
+     * Get back all tasks filtered by given filter.
+     * @param filter The filter.
+     * @return list of tasks
+     * @throws ConnectionException when the connection fails.
+     */
+    public static List<Task> where(Filter filter) throws ConnectionException {
+        try {
+            Statement stmt = DataLayer.getConnection().createStatement(
+                    ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_READ_ONLY
+            );
+            ResultSet rs = stmt.executeQuery("select " + SQL +
+                    " from actions " +
+                    "left join contexts on context_id = contexts.id " +
+                    "left join projects on project_id = projects.id " +
+                    "left join statuses on status_id = statuses.id " +
+                    "where "+filter.getWhere());
             List<Task> tasks = new ArrayList<Task>();
             while (rs.next()) {
                 Task t = new Task();
