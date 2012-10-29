@@ -78,9 +78,11 @@ public class Thought {
     public static List<Thought> getAllThoughts() throws ConnectionException {
         List<Thought> list = new ArrayList<Thought>();
         PreparedStatement statement = null;
-        
+            
         try{
-            statement.getConnection().prepareStatement("SELECT id, notes FROM thoughts").execute();
+
+            statement = DataLayer.getConnection().prepareStatement("SELECT id, notes FROM thoughts");
+            statement.execute();
             ResultSet res = statement.getResultSet();
 
             while(res.next()) {
@@ -88,11 +90,11 @@ public class Thought {
                 t.fromResultSet(res);
                 list.add(t);
             }
+            return list;
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        
-        return list;
+        return new ArrayList<Thought>();
     }
     
     private void fromResultSet(ResultSet rs) throws SQLException {
