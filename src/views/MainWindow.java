@@ -44,5 +44,8 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
- 
+
+    public void showConnectionError() {
+        //TODO: omgaan met SQL problemen
+    }
 }

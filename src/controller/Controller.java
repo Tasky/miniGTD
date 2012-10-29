@@ -4,7 +4,10 @@
  */
 package controller;
 
+import models.Thought;
+import util.exceptions.ConnectionException;
 import views.MainWindow;
+import java.util.List;
 
 /**
  *
@@ -18,4 +21,12 @@ public class Controller {
         frame = new MainWindow(this);
     }
 
+    public List<Thought> getAllThoughts() throws ConnectionException {
+        try {
+            return Thought.getAllThoughts();
+        } catch (ConnectionException e) {
+            frame.showConnectionError();
+            throw e;
+        }
+    }
 }

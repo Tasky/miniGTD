@@ -6,11 +6,13 @@ package views;
 
 import controller.Controller;
 import net.miginfocom.swing.MigLayout;
+import util.exceptions.ConnectionException;
 import views.content.TaskForm;
 import views.content.Thought;
 import views.content.ThoughtForm;
 
 import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 
 /**
@@ -32,15 +34,14 @@ public class ContentPanel extends JPanel {
         JPanel holder = new JPanel();
         holder.setLayout(new MigLayout("gap 20px", "[grow]", "[]"));
         holder.setOpaque(false);
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-        holder.add(new Thought(), "span, growx");
-
+        try {
+            List<models.Thought> thoughts = controller.getAllThoughts();
+            for(models.Thought thought : thoughts) {
+                holder.add(new Thought(), "span, growx");
+            }
+        } catch (ConnectionException e) {
+            // doe niks!
+        }
         add(holder, "span, growx");
     }
 }
