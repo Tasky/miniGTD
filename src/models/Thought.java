@@ -4,10 +4,10 @@ import util.DataLayer;
 import java.sql.*;
 
 /**
- * Author: nanne
+ * Author: tim
  */
 public class Thought {
-    private String notes;
+    private String notes = "";
     private boolean isNew;
     private int id = -1;
 
@@ -16,11 +16,18 @@ public class Thought {
         this.isNew = true;
     }
     
+    public Thought(int id) {
+        //TODO: get info from SQL
+    }
+    
     public Thought() {
         
     }
 
-    public void toTask() {}
+    public String getNote() {
+        return this.notes;
+    }
+    
     public void save() throws SQLException {
         PreparedStatement statement = null;
         
@@ -30,8 +37,11 @@ public class Thought {
             statement.executeQuery();
             ResultSet res = statement.getGeneratedKeys();
             this.id = res.getInt(1);
-        }else{
-            //get id and update
+        }else if(id > 0){
+            statement = DataLayer.getConnection().prepareStatement("UPDATE thoughts SET notes = ? WHERE id = ?");
+            statement.setString(1, notes);
+            statement.setInt(2, id);
+            statement.execute();
         }
         
         try{
