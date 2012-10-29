@@ -41,6 +41,14 @@ public class Controller {
             return "Inbox (2)";
         } else if (action.equals("today")) {
             return "Vandaag";
+        } else if (action.equals("next")) {
+            return "Volgende";
+        } else if (action.equals("planned")) {
+            return "Gepland";
+        } else if (action.equals("ever")) {
+            return "Ooit";
+        } else if (action.equals("history")) {
+            return "Logboek";
         } else {
             return "";
         }

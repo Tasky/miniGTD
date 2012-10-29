@@ -15,26 +15,28 @@ import javax.swing.border.Border;
 
 public class FilterPanel extends JPanel {
     private Stack<Tab> tabs = new Stack<Tab>();
+    private final Controller controller;
 
     public FilterPanel(final Controller controller) {
         super(null);
-        
+        this.controller = controller;
+
 //        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setLayout(new MigLayout("ins 0", "[grow]"));
         setBackground(new Color(230, 238, 251));
 
         add(new Header("Verzamelen"), "span, growx");
-        tabs.push(new Tab("inbox_empty.png", "Inbox (2)", "inbox"));
+        tabs.push(new Tab("inbox_empty.png", "inbox"));
         add(tabs.peek(), "span, growx");
 
         add(new Header("Focus"), "span, growx");
-        tabs.push(new Tab("star.png", "Vandaag (2)", "today"));
+        tabs.push(new Tab("star.png", "today"));
         add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("date_next.png", "Volgende", "next"));
+        tabs.push(new Tab("date_next.png", "next"));
         add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("date_task.png", "Gepland", "planned"));
+        tabs.push(new Tab("date_task.png", "planned"));
         add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("box_open.png", "Ooit", "ever"));
+        tabs.push(new Tab("box_open.png", "ever"));
         add(tabs.peek(), "span, growx");
 
         add(new Header("Projecten"), "span, growx");
@@ -45,7 +47,7 @@ public class FilterPanel extends JPanel {
             }
         }
         for (int i = 0; i < 10; i++) {
-            Tab tab = new Tab("to_do_list.png", "Java5", "project");
+            Tab tab = new Tab("to_do_list.png", "project");
             tab.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {
@@ -67,7 +69,7 @@ public class FilterPanel extends JPanel {
         }
 
         add(new Header("Archief"), "span, growx");
-        tabs.push(new Tab("book.png", "Logboek", "history"));
+        tabs.push(new Tab("book.png", "history"));
         add(tabs.peek(), "span, growx");
         //tabs.push(new Tab("bin_closed.png", "Prullenbak"));
         //add(tabs.peek(), "span, growx");
@@ -105,10 +107,10 @@ public class FilterPanel extends JPanel {
     private class Tab extends JLabel {
         private String action;
 
-        public Tab(String image, String text, String action) {
+        public Tab(String image, String action) {
             super();
             this.action = action;
-            setText(text);
+            setText(controller.getActionName(action));
             setIcon(new ImageIcon(getClass().getResource("/resources/icons/" + image)));
             setFont(new Font("Sans-serif", Font.PLAIN, 11));
             setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 0));
