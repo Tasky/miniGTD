@@ -5,7 +5,6 @@
 package views.content;
 
 import javax.swing.JPanel;
-import static views.LayoutConstants.*;
 
 /**
  *
