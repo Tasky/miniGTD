@@ -37,7 +37,7 @@ public class ContentPanel extends JPanel {
         try {
             List<models.Thought> thoughts = controller.getAllThoughts();
             for(models.Thought thought : thoughts) {
-                holder.add(new Thought(), "span, growx");
+                holder.add(new Thought(thought), "span, growx");
             }
         } catch (ConnectionException e) {
             // doe niks!

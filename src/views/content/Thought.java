@@ -11,17 +11,17 @@ import java.awt.*;
 
 public class Thought extends JPanel {
     
-    public Thought() {
+    public Thought(models.Thought thought) {
         setOpaque(false);
         setLayout(new MigLayout("", "[grow][]", "[]"));
         // TODO: knopje toevoegen bij aanpassen textarea
-        add(new JTextArea("test"), "growx, aligny top");
+        add(new JTextArea(thought.getNotes()), "growx, aligny top");
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new MigLayout("ins 0"));
         buttonPanel.setOpaque(false);
         // TODO: knopjes werkend maken
         buttonPanel.add(new JButton("Maak actie"), "span");
-        buttonPanel.add(new JButton("Weg ermee"));
+        buttonPanel.add(new JButton("Weggooien"));
         add(buttonPanel);
     }
 
