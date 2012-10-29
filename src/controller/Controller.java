@@ -12,6 +12,7 @@ import views.MainWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import models.Project;
 
 /**
  *
@@ -77,5 +78,18 @@ public class Controller {
         } else {
             return "";
         }
+    }
+    
+    public List<Project> getProjects() {
+        List<Project> list = new ArrayList<Project>();
+        try{
+           List<Project> tmp = Project.all();
+           for(Project p : tmp)
+               list.add(p);
+        
+        }catch(ConnectionException e) {
+            frame.showConnectionError();
+        }
+        return list;
     }
 }
