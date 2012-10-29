@@ -19,14 +19,17 @@ public class Controller {
     
     public Controller() {
         frame = new MainWindow(this);
+        open("inbox");
     }
 
-    public List<Thought> getAllThoughts() throws ConnectionException {
+    public void open(String action) {
         try {
-            return Thought.getAllThoughts();
+            if (action.equals("")) {
+            } else {
+                frame.showThoughts(Thought.all());
+            }
         } catch (ConnectionException e) {
             frame.showConnectionError();
-            throw e;
         }
     }
 }

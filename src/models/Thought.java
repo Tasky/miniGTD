@@ -91,7 +91,7 @@ public class Thought implements Item {
         }
     }
     
-    public static List<Thought> getAllThoughts() throws ConnectionException {
+    public static List<Thought> all() throws ConnectionException {
         List<Thought> list = new ArrayList<Thought>();
         PreparedStatement statement = null;
             
