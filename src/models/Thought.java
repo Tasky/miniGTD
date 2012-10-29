@@ -92,9 +92,9 @@ public class Thought {
             }
             return list;
         }catch(SQLException e) {
-            e.printStackTrace();
+            throw new ConnectionException();
         }
-        return new ArrayList<Thought>();
+        
     }
     
     private void fromResultSet(ResultSet rs) throws SQLException {
