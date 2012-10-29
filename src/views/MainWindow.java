@@ -26,9 +26,9 @@ public class MainWindow extends JFrame {
     public MainWindow(Controller controller) {
         super("miniGTD");
         setLayout(null);
-        setBounds(0, 0, 900, 700);
+        setBounds(0, 0, 950, 700);
         setLocationRelativeTo(null);
-        setMinimumSize(new Dimension(900, 700));
+        setMinimumSize(new Dimension(950, 700));
 
         setLayout(new MigLayout("ins 0, fill, gap 0", "[][grow]", "[grow]"));
 
