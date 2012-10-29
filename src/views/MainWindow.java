@@ -5,10 +5,14 @@
 package views;
 
 import controller.Controller;
+import models.Task;
+import models.Thought;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  *
@@ -38,7 +42,7 @@ public class MainWindow extends JFrame {
 
         contentpane = new ContentPanel(controller);
         JScrollPane contentScroller = new JScrollPane(contentpane);
-        contentScroller.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
+        contentScroller.setBorder(BorderFactory.createEmptyBorder());
         add(contentScroller, "span, grow");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,5 +51,13 @@ public class MainWindow extends JFrame {
 
     public void showConnectionError() {
         //TODO: omgaan met SQL problemen
+        contentpane.setBackground(Color.RED);
+    }
+
+    public void showThoughts(List<Thought> thoughts) {
+        contentpane.showThoughts(thoughts);
+    }
+    public void showTasks(List<Task> tasks) {
+        contentpane.showTasks(tasks);
     }
 }
