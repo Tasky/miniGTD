@@ -8,6 +8,7 @@ import models.Context;
 import models.Status;
 import models.Task;
 import models.Thought;
+import models.Project;
 import util.exceptions.ConnectionException;
 import views.MainWindow;
 
@@ -67,10 +68,21 @@ public class Controller {
         list.add("");
         try {
             List<Context> contexts = Context.all();
-            for (Context context : contexts) {
+            for (Context context : contexts)
                 list.add(context.getName());
-            }
         } catch (ConnectionException e) {
+            frame.showConnectionError();
+        }
+        return list;
+    }
+
+    public List<Project> getProjects() {
+        List<Project> list = new ArrayList<Project>();
+        try {
+            List<Project> tmp = Project.all();
+            for(Project p : tmp)
+                list.add(p);
+        }catch(ConnectionException e) {
             frame.showConnectionError();
         }
         return list;
@@ -93,5 +105,4 @@ public class Controller {
             return "";
         }
     }
-
 }

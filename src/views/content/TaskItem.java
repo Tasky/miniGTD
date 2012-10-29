@@ -18,17 +18,14 @@ public class TaskItem extends JPanel {
         setOpaque(false);
         setLayout(new MigLayout("", "[][grow][]"));
 
-
         add(new JCheckBox());
         JLabel label = new JLabel(task.getDescription());
         label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//        label.setFont(new Font("Sans-serif", Font.PLAIN, 16));
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.isPopupTrigger()) return;
                 removeAll();
-//                add(new JLabel("TEST"));
                 setLayout(new MigLayout("", "[grow]"));
                 add(new TaskForm(controller, task), "grow");
                 revalidate();
