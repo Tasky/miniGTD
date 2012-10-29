@@ -5,6 +5,7 @@
 package views;
 
 import controller.Controller;
+import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,31 +19,32 @@ public class FilterPanel extends JPanel {
     public FilterPanel(Controller controller) {
         super(null);
         
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new MigLayout("ins 0", "[grow]"));
         setBackground(new Color(230, 238, 251));
 
-        add(new Header("Verzamelen"));
+        add(new Header("Verzamelen"), "span, growx");
         tabs.push(new Tab("inbox_empty.png", "Inbox (2)"));
-        add(tabs.peek());
+        add(tabs.peek(), "span, growx");
 
-        add(new Header("Focus"));
+        add(new Header("Focus"), "span, growx");
         tabs.push(new Tab("star.png", "Vandaag (2)"));
-        add(tabs.peek());
+        add(tabs.peek(), "span, growx");
         tabs.push(new Tab("date_next.png", "Volgende"));
-        add(tabs.peek());
+        add(tabs.peek(), "span, growx");
         tabs.push(new Tab("date_task.png", "Gepland"));
-        add(tabs.peek());
+        add(tabs.peek(), "span, growx");
         tabs.push(new Tab("box_open.png", "Ooit"));
-        add(tabs.peek());
+        add(tabs.peek(), "span, growx");
 
-        add(new Header("Projecten"));
+        add(new Header("Projecten"), "span, growx");
         class ProjectPopup extends JPopupMenu {
             public ProjectPopup(){
                 add(new JMenuItem("Hernoemen"));
                 add(new JMenuItem("Verwijderen"));
             }
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             Tab tab = new Tab("to_do_list.png", "Java5");
             tab.addMouseListener(new MouseAdapter() {
                 @Override
@@ -61,14 +63,14 @@ public class FilterPanel extends JPanel {
             });
 
             tabs.push(tab);
-            add(tab);
+            add(tab, "span, growx");
         }
 
-        add(new Header("Archief"));
+        add(new Header("Archief"), "span, growx");
         tabs.push(new Tab("book.png", "Logboek"));
-        add(tabs.peek());
+        add(tabs.peek(), "span, growx");
         //tabs.push(new Tab("bin_closed.png", "Prullenbak"));
-        //add(tabs.peek());
+        //add(tabs.peek(), "span, growx");
         tabs.get(0).setActive(true);
         final MouseListener click = new MouseAdapter() {
             @Override
@@ -105,12 +107,7 @@ public class FilterPanel extends JPanel {
             setText(text);
             setIcon(new ImageIcon(getClass().getResource("/resources/icons/" + image)));
             setFont(new Font("Sans-serif", Font.PLAIN, 11));
-            Border padding = BorderFactory.createEmptyBorder(2, 10, 2, 0);
-            setBorder(padding);
-            Dimension size = getPreferredSize();
-            size.width = 150;
-            setMaximumSize(size);
-            setPreferredSize(size);
+            setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 0));
             setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
 

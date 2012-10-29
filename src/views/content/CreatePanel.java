@@ -4,40 +4,62 @@
  */
 package views.content;
 
-import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import static views.LayoutConstants.*;
+import com.toedter.calendar.JDateChooser;
+import net.miginfocom.swing.MigLayout;
 
-/**
- *
- * @author tim
- */
+import java.awt.*;
+import javax.swing.*;
+
 public class CreatePanel extends JPanel {
     
     private JTextField textf;
     private JLabel label;
     private JButton addButton;
-   
+    private JButton nogwat;
+
     public CreatePanel() {
         super(null);
 //GroupLayout: http://docs.oracle.com/javase/tutorial/uiswing/layout/group.html
 //        setLayout();
+        setLayout(new MigLayout("", "[][grow]", ""));
         setBackground(Color.white);
-        
-        initComponents();
+
+        add(new JLabel("Actie:"));
+        add(new JTextField(), "span, grow");
+        add(new JLabel("Notities:"), "wrap");
+
+        add(new JScrollPane(new JTextArea(5, 20)), "span, grow");
+
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.setLayout(new MigLayout("ins 0", "[][grow]", ""));
+        JComboBox context = new JComboBox(new String[]{"Bird", "Cat", "Dog", "Rabbit", "Pig"});
+        context.setEditable(true);
+
+        panel.add(generateField(new JLabel("Context:"), context));
+
+        panel.add(new JLabel(""), "growx");
+
+
+        panel.add(generateField(new JLabel("Datum:"), new JDateChooser()));
+
+        panel.add(new JLabel(""), "growx");
+
+        JComboBox status = new JComboBox(new String[]{"do ASAP", "do NIET ASAP"});
+        status.setEditable(true);
+        panel.add(generateField(new JLabel("Status:"), status));
+
+        panel.add(new JLabel(""), "growx");
+
+        panel.add(new JButton("Toevoegen"));
+        add(panel, "span, growx");
     }
-    
-    private void initComponents() {
-        add(textf = new JTextField());
-        add(label = new JLabel("Notities:"));
-        add(addButton = new JButton("Toevoegen"));
-        textf.setBounds(MARGIN, MARGIN*3, CREATEPANEL_WIDTH-(MARGIN*2), CREATETEXT_HEIGHT);
-        label.setBounds(MARGIN, MARGIN, CREATEPANEL_WIDTH, MARGIN);
-        addButton.setBounds(CREATEPANEL_WIDTH-(MARGIN+BUTTON_WIDTH), CREATEPANEL_HEIGHT-(MARGIN+BUTTON_HEIGHT ), BUTTON_WIDTH, 25);
-        addButton.setVisible(true);
+
+    private JComponent generateField(JLabel label, JComponent component) {
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.add(label);
+        panel.add(component);
+        return panel;
     }
-    
 }

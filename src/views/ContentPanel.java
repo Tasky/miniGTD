@@ -5,13 +5,11 @@
 package views;
 
 import controller.Controller;
-import views.content.Thought;
+import net.miginfocom.swing.MigLayout;
 import views.content.CreatePanel;
-import java.awt.Color;
-import java.util.Stack;
-import javax.swing.*;
 
-import static views.LayoutConstants.*;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  *
@@ -25,10 +23,10 @@ public class ContentPanel extends JPanel {
         super(null);
 
         setBackground(new Color(186, 208, 244));
-
+        setLayout(new MigLayout("ins 0", "[grow]", "[]"));
         noteadd = new CreatePanel();
         noteadd.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-        add(noteadd);
+        add(noteadd, "growx");
         
     }
 }
