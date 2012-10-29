@@ -26,7 +26,7 @@ public class Task implements Item {
     private static final String SQL = "actions.id as id, " +
             "contexts.name as context, " +
             "projects.name as project, " +
-            "status.name as status, " +
+            "statuses.name as status, " +
             "actions.action_date as action_date, " +
             "actions.description as description, " +
             "actions.done as done, " +
@@ -53,7 +53,7 @@ public class Task implements Item {
                     " from actions " +
                     "left join contexts on context_id = contexts.id " +
                     "left join projects on project_id = projects.id " +
-                    "left join statuses on status_id = status.id " +
+                    "left join statuses on status_id = statuses.id " +
                     "where actions.id = ?");
 
             statement.setInt(1, id);
@@ -87,7 +87,7 @@ public class Task implements Item {
                     " from actions " +
                     "left join contexts on context_id = contexts.id " +
                     "left join projects on project_id = projects.id " +
-                    "left join statuses on status_id = status.id");
+                    "left join statuses on status_id = statuses.id");
             List<Task> tasks = new ArrayList<Task>();
             while (rs.next()) {
                 Task t = new Task();
@@ -96,7 +96,7 @@ public class Task implements Item {
             }
             return tasks;
         } catch (SQLException e) {
-            throw new ConnectionException();
+            throw new ConnectionException(e.getMessage());
         }
     }
 

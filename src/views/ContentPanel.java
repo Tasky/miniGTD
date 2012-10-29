@@ -47,6 +47,7 @@ public class ContentPanel extends JPanel {
         }
         add(holder, "span, growx");
         revalidate();
+        repaint();
     }
 
     public void showTasks(List<Task> tasks) {
@@ -64,5 +65,6 @@ public class ContentPanel extends JPanel {
         }
         add(holder, "span, growx");
         revalidate();
+        repaint();
     }
 }
