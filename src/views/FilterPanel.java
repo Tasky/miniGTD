@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.util.Stack;
 import javax.swing.*;
 import javax.swing.border.Border;
+import views.filter.*;
 
 public class FilterPanel extends JPanel {
     private Stack<Tab> tabs = new Stack<Tab>();
@@ -26,28 +27,23 @@ public class FilterPanel extends JPanel {
         setBackground(new Color(230, 238, 251));
 
         add(new Header("Verzamelen"), "span, growx");
-        tabs.push(new Tab("inbox_empty.png", "inbox"));
+        tabs.push(new Tab("inbox_empty.png", "inbox", controller));
         add(tabs.peek(), "span, growx");
 
         add(new Header("Focus"), "span, growx");
-        tabs.push(new Tab("star.png", "today"));
+        tabs.push(new Tab("star.png", "today", controller));
         add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("date_next.png", "next"));
+        tabs.push(new Tab("date_next.png", "next", controller));
         add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("date_task.png", "planned"));
+        tabs.push(new Tab("date_task.png", "planned", controller));
         add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("box_open.png", "ever"));
+        tabs.push(new Tab("box_open.png", "ever", controller));
         add(tabs.peek(), "span, growx");
 
         add(new Header("Projecten"), "span, growx");
-        class ProjectPopup extends JPopupMenu {
-            public ProjectPopup(){
-                add(new JMenuItem("Hernoemen"));
-                add(new JMenuItem("Verwijderen"));
-            }
-        }
+
         for (int i = 0; i < 10; i++) {
-            Tab tab = new Tab("to_do_list.png", "project");
+            Tab tab = new Tab("to_do_list.png", "project", controller);
             tab.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {
@@ -69,7 +65,7 @@ public class FilterPanel extends JPanel {
         }
 
         add(new Header("Archief"), "span, growx");
-        tabs.push(new Tab("book.png", "history"));
+        tabs.push(new Tab("book.png", "history", controller));
         add(tabs.peek(), "span, growx");
         //tabs.push(new Tab("bin_closed.png", "Prullenbak"));
         //add(tabs.peek(), "span, growx");
@@ -94,41 +90,4 @@ public class FilterPanel extends JPanel {
         }
     }
 
-    private class Header extends JLabel {
-        public Header(String text) {
-            super(text);
-            setFont(new Font("Sans-serif", Font.BOLD, 13));
-
-            Border padding = BorderFactory.createEmptyBorder(10, 10, 2, 10);
-            setBorder(padding);
-        }
-    }
-
-    private class Tab extends JLabel {
-        private String action;
-
-        public Tab(String image, String action) {
-            super();
-            this.action = action;
-            setText(controller.getActionName(action));
-            setIcon(new ImageIcon(getClass().getResource("/resources/icons/" + image)));
-            setFont(new Font("Sans-serif", Font.PLAIN, 11));
-            setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 0));
-            setCursor(new Cursor(Cursor.HAND_CURSOR));
-        }
-
-        public void setActive(boolean b) {
-            if(b) {
-                setBackground(new Color(197, 186, 244));
-                setOpaque(true);
-            } else {
-                setBackground(null);
-                setOpaque(false);
-            }
-        }
-
-        public String getAction() {
-            return action;
-        }
-    }
 }
