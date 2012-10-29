@@ -39,7 +39,7 @@ public class TaskForm extends JPanel {
         panel.add(generateField(new JLabel("Status:"), status));
 
         panel.add(new JLabel(""), "growx");
-        panel.add(new JButton("Toevoegen"));
+        panel.add(new JButton("Toevoegen"), "align right");
         add(panel, "span, growx");
     }
 
