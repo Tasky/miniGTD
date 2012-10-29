@@ -4,6 +4,7 @@
  */
 package controller;
 
+import models.Context;
 import models.Status;
 import models.Task;
 import models.Thought;
@@ -61,6 +62,20 @@ public class Controller {
         return list;
     }
 
+    public List<String> getContexts() {
+        List<String> list = new ArrayList<String>();
+        list.add("");
+        try {
+            List<Context> contexts = Context.all();
+            for (Context context : contexts) {
+                list.add(context.getName());
+            }
+        } catch (ConnectionException e) {
+            frame.showConnectionError();
+        }
+        return list;
+    }
+
     public String getActionName(String action) {
         if (action.equals("inbox")) {
             return "Inbox (2)";
@@ -78,4 +93,5 @@ public class Controller {
             return "";
         }
     }
+
 }
