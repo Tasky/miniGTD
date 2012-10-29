@@ -4,11 +4,12 @@ import models.Task;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Author: nanne
  */
-public class TaskItem extends ItemPanel {
+public class TaskItem extends JPanel {
     public TaskItem(Task task) {
         setOpaque(false);
         setLayout(new MigLayout("", "[grow][]", "[]"));
