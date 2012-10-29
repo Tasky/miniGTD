@@ -4,10 +4,14 @@
  */
 package controller;
 
+import models.Status;
 import models.Task;
 import models.Thought;
 import util.exceptions.ConnectionException;
 import views.MainWindow;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,7 +23,8 @@ public class Controller {
     
     public Controller() {
         frame = new MainWindow(this);
-        open("inbox");
+//        open("inbox");
+        open("today");
     }
 
     public void open(String action) {
@@ -40,6 +45,20 @@ public class Controller {
             frame.showConnectionError();
             e.printStackTrace();
         }
+    }
+
+    public List<String> getStatuses() {
+        List<String> list = new ArrayList<String>();
+        list.add("");
+        try {
+            List<Status> statuses = Status.all();
+            for (Status status : statuses) {
+                list.add(status.getName());
+            }
+        } catch (ConnectionException e) {
+            frame.showConnectionError();
+        }
+        return list;
     }
 
     public String getActionName(String action) {

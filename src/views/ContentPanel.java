@@ -53,7 +53,7 @@ public class ContentPanel extends JPanel {
     public void showTasks(List<Task> tasks) {
         removeAll();
 
-        TaskForm form = new TaskForm();
+        TaskForm form = new TaskForm(controller);
         form.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
         add(form, "span, growx");
 
@@ -61,7 +61,7 @@ public class ContentPanel extends JPanel {
         holder.setLayout(new MigLayout("gap 20px", "[grow]", "[]"));
         holder.setOpaque(false);
         for(models.Task task : tasks) {
-            holder.add(new TaskItem(task), "span, growx");
+            holder.add(new TaskItem(controller, task), "span, growx");
         }
         add(holder, "span, growx");
         revalidate();
