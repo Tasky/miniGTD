@@ -17,5 +17,5 @@ public class Controller {
     public Controller() {
         frame = new MainWindow(this);
     }
-    
+
 }

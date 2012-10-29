@@ -17,7 +17,7 @@ public class FilterPanel extends JPanel {
 
     public FilterPanel(Controller controller) {
         super(null);
-
+        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(230, 238, 251));
 
@@ -67,8 +67,8 @@ public class FilterPanel extends JPanel {
         add(new Header("Archief"));
         tabs.push(new Tab("book.png", "Logboek"));
         add(tabs.peek());
-        tabs.push(new Tab("bin_closed.png", "Prullenbak"));
-        add(tabs.peek());
+        //tabs.push(new Tab("bin_closed.png", "Prullenbak"));
+        //add(tabs.peek());
         tabs.get(0).setActive(true);
         final MouseListener click = new MouseAdapter() {
             @Override
