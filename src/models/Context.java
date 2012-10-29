@@ -20,7 +20,7 @@ public class Context {
         List<Context> list = new ArrayList<Context>();
 
         try {
-            PreparedStatement statement = DataLayer.getConnection().prepareStatement("SELECT id, name FROM statuses");
+            PreparedStatement statement = DataLayer.getConnection().prepareStatement("SELECT id, name FROM contexts");
             statement.execute();
             ResultSet res = statement.getResultSet();
 

@@ -31,7 +31,7 @@ public class TaskForm extends JPanel {
         description = new JTextField();
         notes = new JTextArea(3, 20);
 
-        context = new JComboBox(new String[]{"Bird", "Cat", "Dog", "Rabbit", "Pig"});
+        context = new JComboBox(controller.getContexts().toArray());
         context.setEditable(true);
 
         dateChooser = new JXDatePicker();
@@ -52,9 +52,12 @@ public class TaskForm extends JPanel {
 
         context = new JComboBox(controller.getContexts().toArray());
         context.setEditable(true);
+        status.setSelectedItem(task.getContext());
+
         dateChooser = new JXDatePicker(task.getActionDate());
         status = new JComboBox(controller.getStatuses().toArray());
         status.setSelectedItem(task.getStatus());
+
         button = new JButton("Aanpassen");
         generateForm();
     }
