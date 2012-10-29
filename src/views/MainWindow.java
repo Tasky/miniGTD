@@ -37,7 +37,9 @@ public class MainWindow extends JFrame {
         navpane.setMinimumSize(new Dimension(200, 400));
 
         contentpane = new ContentPanel(controller);
-        add(contentpane, "span, grow");
+        JScrollPane contentScroller = new JScrollPane(contentpane);
+        contentScroller.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
+        add(contentScroller, "span, grow");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
