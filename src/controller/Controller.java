@@ -51,15 +51,15 @@ public class Controller implements Observer {
             if (action.equals("inbox")) {
                 frame.showThoughts(Thought.all(), true);
             } else if (action.equals("today")) {
-                frame.showTasks(Task.where(Task.Filter.TODAY), true);
+                frame.showTasks(Task.all(Task.Filter.TODAY), true);
             } else if (action.equals("next")) {
-                frame.showTasks(Task.where(Task.Filter.NEXT), true);
+                frame.showTasks(Task.all(Task.Filter.NEXT), true);
             } else if (action.equals("planned")) {
-                frame.showTasks(Task.where(Task.Filter.PLANNED), true);
+                frame.showTasks(Task.all(Task.Filter.PLANNED), true);
             } else if (action.equals("ever")) {
-                frame.showTasks(Task.where(Task.Filter.EVER), true);
+                frame.showTasks(Task.all(Task.Filter.EVER), true);
             } else if (action.equals("history")) {
-                frame.showTasks(Task.where(Task.Filter.HISTORY), false);
+                frame.showTasks(Task.all(Task.Filter.HISTORY), false);
             }
         } catch (ConnectionException e) {
             frame.showConnectionError();
