@@ -31,7 +31,7 @@ public class Controller {
     
     private MainWindow frame;
     private Sort order = Sort.ORDER;
-    private boolean asc = true;
+    private boolean asc = false;
     private Task.Filter filter;
     private boolean formEnabled = true;
     private String action = "inbox";
