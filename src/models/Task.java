@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Author: nanne
  */
-public class Task implements Item {
+public class Task extends Observable implements Item {
     private int id = -1;
     private String description = "";
     private Status status;
@@ -228,6 +229,8 @@ public class Task implements Item {
                     isNew = true;
                 }
                 statement.close();
+                this.setChanged();
+                this.notifyObservers(this);
             } catch (SQLException e) {
                 throw new ConnectionException();
             }
@@ -311,6 +314,9 @@ public class Task implements Item {
                 }
             }
         }
+        
+        this.setChanged();
+        this.notifyObservers(this);
     }
 
     public String getDescription() {
