@@ -69,7 +69,23 @@ public class Task implements Item {
         public String getWhere() {
             return where;
         }
+    }
 
+    public enum Sort {
+        ORDER("id"),
+        TASK("description"),
+        ACTIONDATE("action_date"),
+        STATUS("statuses.name");
+
+        private final String orderby;
+
+        Sort(String orderby) {
+            this.orderby = orderby;
+        }
+
+        public String getOrderby() {
+            return orderby;
+        }
     }
 
     /**
@@ -113,36 +129,6 @@ public class Task implements Item {
     }
 
     /**
-     * Get a list of all tasks.
-     *
-     * @return list of tasks
-     * @throws ConnectionException when the connection fails.
-     */
-    public static List<Task> all() throws ConnectionException {
-        try {
-            Statement stmt = DataLayer.getConnection().createStatement(
-                    ResultSet.TYPE_FORWARD_ONLY,
-                    ResultSet.CONCUR_READ_ONLY
-            );
-            ResultSet rs = stmt.executeQuery("select " + SQL +
-                    " from actions " +
-                    "left join contexts on context_id = contexts.id " +
-                    "left join projects on project_id = projects.id " +
-                    "left join statuses on status_id = statuses.id");
-            List<Task> tasks = new ArrayList<Task>();
-            while (rs.next()) {
-                Task t = new Task();
-                t.fromResultSet(rs);
-                tasks.add(t);
-            }
-            stmt.close();
-            return tasks;
-        } catch (SQLException e) {
-            throw new ConnectionException(e.getMessage());
-        }
-    }
-
-    /**
      * Get a count of tasks.
      * @param filter the filter
      * @return count
@@ -171,12 +157,34 @@ public class Task implements Item {
 
     /**
      * Get back all tasks filtered by given filter.
-     *
      * @param filter The filter.
      * @return list of tasks
      * @throws ConnectionException when the connection fails.
      */
-    public static List<Task> where(Filter filter) throws ConnectionException {
+    public static List<Task> all(Filter filter) throws ConnectionException {
+        return all(filter, Sort.ORDER, true);
+    }
+
+    /**
+     * Get back all tasks sorted and filtered by given filter.
+     * @param filter The filter.
+     * @param sort The sort.
+     * @return list of tasks
+     * @throws ConnectionException ConnectionException when the connection fails.
+     */
+    public static List<Task> all(Filter filter, Sort sort) throws ConnectionException {
+        return all(filter, sort, true);
+    }
+
+    /**
+     * Get back all tasks sorted and filtered by given filter.
+     * @param filter The filter.
+     * @param sort The sort.
+     * @param asc Asc or desc.
+     * @return list of tasks
+     * @throws ConnectionException ConnectionException when the connection fails.
+     */
+    public static List<Task> all(Filter filter, Sort sort, boolean asc) throws ConnectionException {
         try {
             Statement stmt = DataLayer.getConnection().createStatement(
                     ResultSet.TYPE_FORWARD_ONLY,
@@ -187,7 +195,7 @@ public class Task implements Item {
                     "left join contexts on context_id = contexts.id " +
                     "left join projects on project_id = projects.id " +
                     "left join statuses on status_id = statuses.id " +
-                    "where " + filter.getWhere());
+                    "where " + filter.getWhere() + " order by "+sort.getOrderby() + " " + (asc ? "asc" : "desc"));
             List<Task> tasks = new ArrayList<Task>();
             while (rs.next()) {
                 Task t = new Task();
