@@ -32,10 +32,11 @@ public class Controller implements Observer {
     private boolean asc = true;
     private Task.Filter filter;
     private boolean formEnabled = true;
+    private String action = "inbox";
 
     public Controller() {
         frame = new MainWindow(this);
-        open("inbox");
+        open(action);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
@@ -60,6 +61,7 @@ public class Controller implements Observer {
     }
 
     public void open(String action) {
+        this.action = action;
         try {
             frame.setTitle(getActionName(action));
             if (action.equals("inbox")) {
@@ -186,6 +188,7 @@ public class Controller implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        frame.setTitle(getActionName(action));
         try{
             if( arg instanceof Thought) {
                 frame.updateThoughts(Thought.all());
@@ -196,5 +199,9 @@ public class Controller implements Observer {
         }catch(ConnectionException e){
             e.printStackTrace();
         }
+    }
+
+    public String getAction() {
+        return action;
     }
 }

@@ -14,45 +14,38 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.*;
-import java.util.Stack;
-import java.util.TooManyListenersException;
+import java.util.*;
 import javax.swing.*;
 
 import models.Project;
 import views.filter.*;
 
 public class FilterPanel extends JPanel {
-    private Stack<Tab> tabs = new Stack<Tab>();
-    private java.util.List<Project> projects;
     private final Controller controller;
 
     public FilterPanel(final Controller controller) {
         super(null);
         this.controller = controller;
 
-//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setLayout(new MigLayout("ins 0", "[grow]"));
         setBackground(new Color(230, 238, 251));
-        
-        projects = controller.getProjects();
+        updateFilters();
+    }
+
+    public void updateFilters() {
+        removeAll();
         add(new Header("Verzamelen"), "span, growx");
-        tabs.push(new Tab("inbox_empty.png", "inbox", controller));
-        add(tabs.peek(), "span, growx");
-
+        add(new Tab("inbox_empty.png", "inbox", controller), "span, growx");
         add(new Header("Focus"), "span, growx");
-        tabs.push(new Tab("star.png", "today", controller));
-        add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("date_next.png", "next", controller));
-        add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("date_task.png", "planned", controller));
-        add(tabs.peek(), "span, growx");
-        tabs.push(new Tab("box_open.png", "ever", controller));
-        add(tabs.peek(), "span, growx");
-
+        add(new Tab("star.png", "today", controller), "span, growx");
+        add(new Tab("date_task.png", "next", controller), "span, growx");
+//        add(new Tab("date_task.png", "planned", controller), "span, growx");
+        add(new Tab("box_open.png", "ever", controller), "span, growx");
         add(new Header("Projecten"), "span, growx");
 
+        java.util.List<Project> projects = controller.getProjects();
         for (final Project p : projects) {
-            Tab tab = new Tab("to_do_list.png", "project", controller);
+            Tab tab = new Tab("to_do_list.png", "project_"+p.getId(), controller);
             tab.setText(p.getName());
             tab.setToolTipText(p.getNote());
 
@@ -94,36 +87,12 @@ public class FilterPanel extends JPanel {
                 }
             });
 
-            tabs.push(tab);
             add(tab, "span, growx");
         }
 
         add(new Header("Archief"), "span, growx");
-        tabs.push(new Tab("book.png", "history", controller));
-        add(tabs.peek(), "span, growx");
-        //tabs.push(new Tab("bin_closed.png", "Prullenbak"));
-        //add(tabs.peek(), "span, growx");
-        tabs.get(0).setActive(true);
-        final MouseListener click = new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-                if(mouseEvent.isPopupTrigger()) return;
-                Object source = mouseEvent.getSource();
-                if (source instanceof Tab) {
-                    for(Tab tab : tabs) {
-                        tab.setActive(false);
-                    }
-                    Tab tab = (Tab) source;
-                    tab.setActive(true);
-                    controller.open(tab.getAction());
-                }
-            }
-        };
-        for(Tab tab : tabs) {
-            tab.addMouseListener(click);
-        }
-    }
-
-    public void updateFilters() {
+        add(new Tab("book.png", "history", controller), "span, growx");
+        revalidate();
+        repaint();
     }
 }

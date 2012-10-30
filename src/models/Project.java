@@ -136,4 +136,8 @@ public class Project implements Item {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public int getId() {
+        return id;
+    }
 }
