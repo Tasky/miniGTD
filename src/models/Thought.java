@@ -4,6 +4,8 @@ import util.DataLayer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.exceptions.ConnectionException;
 
 /**
@@ -44,6 +46,7 @@ public class Thought implements Item {
                     this.id = res.getInt(1);
                     isNew = false;
                 }
+                statement.close();
             } catch (SQLException ex) {
                 throw new ConnectionException(ex.getMessage());
             }
@@ -80,7 +83,7 @@ public class Thought implements Item {
             }
         }else
             throw new ConnectionException();
-        
+ 
     }
     
     public static void create(String notes) throws ConnectionException {
@@ -111,6 +114,8 @@ public class Thought implements Item {
                 t.fromResultSet(res);
                 list.add(t);
             }
+            statement.close();
+            
             return list;
         }catch(SQLException e) {
             throw new ConnectionException();
@@ -128,6 +133,8 @@ public class Thought implements Item {
             if(res.next()) {
                 return res.getInt(1);
             }
+            statement.close();
+            
             return 0;
         }catch(SQLException e) {
             throw new ConnectionException();
