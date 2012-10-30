@@ -47,8 +47,9 @@ public class FilterPanel extends JPanel {
         add(new Header("Projecten"), "span, growx");
 
         for (Project p : projects) {
-            Tab tab = new Tab("to_do_list.png", p.getNote(), controller);
+            Tab tab = new Tab("to_do_list.png", "project", controller);
             tab.setText(p.getName());
+            tab.setToolTipText(p.getNote());
             tab.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {
