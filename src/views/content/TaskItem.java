@@ -46,8 +46,7 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
 
         add(new JLabel(task.getContext()));
 
-        List<Status> strings = controller.getStatuses();
-        JComboBox statuses = new JComboBox(strings.toArray());
+        JComboBox statuses = new JComboBox(controller.getStatuses().toArray());
         statuses.setSelectedItem(task.getStatus());
         add(statuses);
 

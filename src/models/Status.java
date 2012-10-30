@@ -66,4 +66,13 @@ public class Status {
     public String toString() {
         return getName();
     }
+    @Override
+    public int hashCode() {
+        return getId();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return that instanceof Status && this.hashCode() == that.hashCode();
+    }
 }
