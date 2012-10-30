@@ -39,17 +39,26 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
         });
         add(checkBox);
         JLabel label = new JLabel(task.getDescription());
-        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        label.addMouseListener(new MouseAdapter() {
+        final JPanel jpanel = this;
+        MouseAdapter adapter = new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                if (mouseEvent.isPopupTrigger()) return;
-                    TaskPopup menu = new TaskPopup(task, controller);
-                    add(menu);
-                    menu.show(menu, mouseEvent.getX(), mouseEvent.getY());
+            public void mousePressed(MouseEvent mouseEvent) {
+                if (mouseEvent.isPopupTrigger()) doPop(mouseEvent);
             }
-        });
-        add(label, "growx");
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) doPop(e);
+            }
+
+            private void doPop(MouseEvent e) {
+                TaskPopup menu = new TaskPopup(jpanel, task, controller);
+                menu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        };
+        label.addMouseListener(adapter);
+        this.addMouseListener(adapter);
+        add(label);
 
         add(new JLabel("#"+task.getContext()));
 

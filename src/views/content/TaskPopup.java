@@ -21,20 +21,16 @@ import net.miginfocom.swing.MigLayout;
  */
 public class TaskPopup extends JPopupMenu {
 
-    public TaskPopup(final Task t, final Controller controller) {
+    public TaskPopup(final JPanel panel, final Task t, final Controller controller) {
         JMenuItem wijzigen = new JMenuItem("Wijzigen");
         wijzigen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("foo");
-                //int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
-                //if (returnal == JOptionPane.YES_OPTION) {
-                    removeAll();
-                    setLayout(new MigLayout("", "[grow]"));
-                    add(new TaskForm(controller, t), "grow");
-                    revalidate();
-                    repaint();
-                //}
+                panel.removeAll();
+                panel.setLayout(new MigLayout("", "[grow]"));
+                panel.add(new TaskForm(controller, t), "grow");
+                panel.revalidate();
+                panel.repaint();
             }
         });
         add(wijzigen);
