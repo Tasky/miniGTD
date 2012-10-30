@@ -62,11 +62,11 @@ public class MainWindow extends JFrame {
         contentpane.updateThoughts(all);
     }
 
-    public void showTasks(List<Task> tasks, boolean formVisible) {
-        contentpane.showTasks(tasks, Sort.ORDER, true, formVisible);
-    }
     public void showTasks(List<Task> tasks, Task.Sort currentSort, boolean asc, boolean formVisible) {
         contentpane.showTasks(tasks, currentSort, asc, formVisible);
+    }
+    public void updateTasks(List<Task> tasks, Task.Sort currentSort, boolean asc, boolean formVisible) {
+        contentpane.updateTasks(tasks, currentSort, asc);
     }
 
     @Override
