@@ -35,7 +35,6 @@ public class FilterPanel extends JPanel {
         setBackground(new Color(230, 238, 251));
         
         projects = controller.getProjects();
-
         add(new Header("Verzamelen"), "span, growx");
         tabs.push(new Tab("inbox_empty.png", "inbox", controller));
         add(tabs.peek(), "span, growx");
@@ -125,4 +124,6 @@ public class FilterPanel extends JPanel {
         }
     }
 
+    public void updateFilters() {
+    }
 }

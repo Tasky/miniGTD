@@ -68,6 +68,9 @@ public class MainWindow extends JFrame {
     public void updateTasks(List<Task> tasks, Task.Sort currentSort, boolean asc, boolean formVisible) {
         contentpane.updateTasks(tasks, currentSort, asc);
     }
+    public void updateFilters() {
+        navpane.updateFilters();
+    }
 
     @Override
     public void setTitle(String title) {

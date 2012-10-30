@@ -30,8 +30,9 @@ public class Controller implements Observer {
     private MainWindow frame;
     private Sort order = Sort.ORDER;
     private boolean asc = true;
-    private String action;
-    
+    private Task.Filter filter;
+    private boolean formEnabled = true;
+
     public Controller() {
         frame = new MainWindow(this);
         open("inbox");
@@ -46,26 +47,40 @@ public class Controller implements Observer {
     public void sort(Sort order, boolean asc) {
         this.order = order;
         this.asc = asc;
-        open(action);
+        refreshTasks();
+    }
+
+    private void refreshTasks() {
+        try {
+            frame.updateTasks(Task.all(filter, order, asc), order, asc, formEnabled);
+        } catch (ConnectionException e) {
+            frame.showConnectionError();
+            e.printStackTrace();
+        }
     }
 
     public void open(String action) {
-        this.action = action;
         try {
             frame.setTitle(getActionName(action));
             if (action.equals("inbox")) {
                 this.showThoughts(Thought.all(), true);
-            } else if (action.equals("today")) {
-                frame.showTasks(Task.all(Task.Filter.TODAY, order, asc), order, asc, true);
-            } else if (action.equals("next")) {
-                frame.showTasks(Task.all(Task.Filter.NEXT, order, asc), order, asc, true);
-            } else if (action.equals("planned")) {
-                frame.showTasks(Task.all(Task.Filter.PLANNED, order, asc), order, asc, true);
-            } else if (action.equals("ever")) {
-                frame.showTasks(Task.all(Task.Filter.EVER, order, asc), order, asc, true);
-            } else if (action.equals("history")) {
-                frame.showTasks(Task.all(Task.Filter.HISTORY, order, asc), order, asc, false);
+                return;
             }
+            formEnabled = true;
+            if (action.equals("today")) {
+                filter = Task.Filter.TODAY;
+            } else if (action.equals("next")) {
+                filter = Task.Filter.NEXT;
+            } else if (action.equals("planned")) {
+                filter = Task.Filter.PLANNED;
+            } else if (action.equals("ever")) {
+                filter = Task.Filter.EVER;
+            } else if (action.equals("history")) {
+                formEnabled = false;
+                filter = Task.Filter.HISTORY;
+            }
+
+            frame.showTasks(Task.all(filter, order, asc), order, asc, formEnabled);
         } catch (ConnectionException e) {
             frame.showConnectionError();
             e.printStackTrace();
@@ -174,10 +189,12 @@ public class Controller implements Observer {
         try{
             if( arg instanceof Thought) {
                 frame.updateThoughts(Thought.all());
+            } else if (arg instanceof Task) {
+                refreshTasks();
             }
+            frame.updateFilters();
         }catch(ConnectionException e){
             e.printStackTrace();
         }
     }
-
 }
