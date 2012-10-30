@@ -4,6 +4,7 @@ import util.DataLayer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.exceptions.ConnectionException;
@@ -11,7 +12,7 @@ import util.exceptions.ConnectionException;
 /**
  * Author: tim
  */
-public class Thought implements Item {
+public class Thought extends Observable implements Item {
     private String notes = "";
     private boolean isNew;
     private int id = -1;
@@ -61,6 +62,8 @@ public class Thought implements Item {
             }
         }
         
+        setChanged();
+        
         try{
             if (statement != null) {
                 statement.close();
@@ -84,19 +87,14 @@ public class Thought implements Item {
         }else
             throw new ConnectionException();
  
+        setChanged();
     }
     
     public static void create(String notes) throws ConnectionException {
-        try {
-            PreparedStatement statement = null;
-            
-            statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
-            statement.setString(1, notes);
-            statement.execute();
-            statement.close();
-        } catch (SQLException ex) {
-            throw new ConnectionException();
-        }
+        
+        Thought t = new Thought(notes);
+        t.save();
+
     }
     
     public static List<Thought> all() throws ConnectionException {
