@@ -33,17 +33,9 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.isPopupTrigger()) return;
-                
-                if(mouseEvent.getButton() == 1) {
-                    //Left clicked
-                    removeAll();
-                    setLayout(new MigLayout("", "[grow]"));
-                    add(new TaskForm(controller, task), "grow");
-                    revalidate();
-                    repaint();
-                }else if(mouseEvent.getButton() == 3 ) {
-                    //Right clicked
-                }
+                    TaskPopup menu = new TaskPopup(task, controller);
+                    add(menu);
+                    menu.show(menu, mouseEvent.getX(), mouseEvent.getY());
             }
         });
         add(label, "growx");

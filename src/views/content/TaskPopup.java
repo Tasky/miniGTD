@@ -2,53 +2,50 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.filter;
+package views.content;
 
+import views.filter.*;
 import controller.Controller;
 import models.Project;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import models.Task;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
  * @author tim
  */
-public class ProjectPopup extends JPopupMenu {
+public class TaskPopup extends JPopupMenu {
 
-    public ProjectPopup(final Project p, final Controller controller) {
-        JMenuItem hernoemen = new JMenuItem("Hernoemen");
-        hernoemen.addActionListener(new ActionListener() {
+    public TaskPopup(final Task t, final Controller controller) {
+        JMenuItem wijzigen = new JMenuItem("Wijzigen");
+        wijzigen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JTextField name = new JTextField(p.getName());
-                JTextArea notes = new JTextArea(p.getNotes());
-                notes.setRows(3);
-                notes.setColumns(40);
-                final JComponent[] inputs = new JComponent[] {
-                        new JLabel("Naam"),
-                        name,
-                        new JLabel("Notities"),
-                        new JScrollPane(notes)
-                };
-                int returnal = JOptionPane.showConfirmDialog(null, inputs, "Project hernoemen", JOptionPane.OK_CANCEL_OPTION);
+                System.out.println("foo");
+                int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
-                    p.setName(name.getText());
-                    p.setNotes(notes.getText());
-                    controller.save(p);
+                    removeAll();
+                    setLayout(new MigLayout("", "[grow]"));
+                    add(new TaskForm(controller, t), "grow");
+                    revalidate();
+                    repaint();
                 }
             }
         });
-        add(hernoemen);
-
+        add(wijzigen);
+        
         JMenuItem verwijderen = new JMenuItem("Verwijderen");
         verwijderen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je dit project wilt verwijderen?"), "Project verwijderen", JOptionPane.OK_CANCEL_OPTION);
+                System.out.println("foo");
+                int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
-//                    controller.removeProject(p);
+//                    controller.removeProject(t);
                 }
             }
         });
