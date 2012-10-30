@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
         setLayout(null);
         setBounds(0, 0, 950, 700);
         setLocationRelativeTo(null);
-        setMinimumSize(new Dimension(950, 700));
+        setMinimumSize(new Dimension(1000, 700));
 
         setLayout(new MigLayout("ins 0, fill, gap 0", "[][grow]", "[grow]"));
 
