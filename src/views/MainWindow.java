@@ -54,11 +54,11 @@ public class MainWindow extends JFrame {
         contentpane.setBackground(Color.RED);
     }
 
-    public void showThoughts(List<Thought> thoughts) {
-        contentpane.showThoughts(thoughts);
+    public void showThoughts(List<Thought> thoughts, boolean b) {
+        contentpane.showThoughts(thoughts, b);
     }
-    public void showTasks(List<Task> tasks) {
-        contentpane.showTasks(tasks);
+    public void showTasks(List<Task> tasks, boolean b) {
+        contentpane.showTasks(tasks, b);
     }
 
     @Override

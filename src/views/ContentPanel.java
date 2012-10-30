@@ -32,12 +32,14 @@ public class ContentPanel extends JPanel {
         setLayout(new MigLayout("ins 0", "[grow]", "[]"));
     }
 
-    public void showThoughts(List<models.Thought> thoughts) {
+    public void showThoughts(List<models.Thought> thoughts, boolean formVisible) {
         removeAll();
 
-        ThoughtForm form = new ThoughtForm();
-        form.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-        add(form, "span, growx");
+        if (formVisible) {
+            ThoughtForm form = new ThoughtForm();
+            form.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
+            add(form, "span, growx");
+        }
 
         JPanel holder = new JPanel();
         holder.setLayout(new MigLayout("gap 20px", "[grow]", "[]"));
@@ -50,12 +52,14 @@ public class ContentPanel extends JPanel {
         repaint();
     }
 
-    public void showTasks(List<Task> tasks) {
+    public void showTasks(List<Task> tasks, boolean formVisible) {
         removeAll();
 
-        TaskForm form = new TaskForm(controller);
-        form.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-        add(form, "span, growx");
+        if (formVisible) {
+            TaskForm form = new TaskForm(controller);
+            form.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
+            add(form, "span, growx");
+        }
 
         JPanel holder = new JPanel();
         holder.setLayout(new MigLayout("gap 20px", "[grow]", "[]"));
@@ -67,4 +71,5 @@ public class ContentPanel extends JPanel {
         revalidate();
         repaint();
     }
+
 }
