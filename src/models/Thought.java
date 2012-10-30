@@ -63,6 +63,7 @@ public class Thought extends Observable implements Item {
         }
         
         setChanged();
+        notifyObservers(this);
         
         try{
             if (statement != null) {
@@ -88,6 +89,8 @@ public class Thought extends Observable implements Item {
             throw new ConnectionException();
  
         setChanged();
+        notifyObservers(this);
+
     }
     
     public static void create(String notes) throws ConnectionException {

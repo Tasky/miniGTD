@@ -17,12 +17,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author tim
  */
-public class Controller {
+public class Controller implements Observer {
     
     private MainWindow frame;
     
@@ -134,6 +136,17 @@ public class Controller {
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        try{
+            if( arg instanceof Thought) {
+                frame.showThoughts(Thought.all(), true);
+            }
+        }catch(ConnectionException e){
+            e.printStackTrace();
         }
     }
 }
