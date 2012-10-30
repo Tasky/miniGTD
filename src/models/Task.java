@@ -14,7 +14,7 @@ import java.util.List;
 public class Task implements Item {
     private int id = -1;
     private String description = "";
-    private String status = "";
+    private Status status;
     private String notes = "";
     private String context = "";
     private String project = "";
@@ -26,7 +26,8 @@ public class Task implements Item {
     private static final String SQL = "actions.id as id, " +
             "contexts.name as context, " +
             "projects.name as project, " +
-            "statuses.name as status, " +
+            "statuses.id as status_id, " +
+            "statuses.name as status_name, " +
             "actions.action_date as action_date, " +
             "actions.description as description, " +
             "actions.done as done, " +
@@ -44,12 +45,12 @@ public class Task implements Item {
         this.id = result.getInt(1);
         this.context = result.getString(2);
         this.project = result.getString(3);
-        this.status = result.getString(4);
-        this.action_date = result.getDate(5);
-        this.description = result.getString(6);
-        this.done = result.getBoolean(7);
-        this.notes = result.getString(8);
-        this.statuschange_date = result.getDate(9);
+        this.status = new Status(result.getInt(4), result.getString(5));
+        this.action_date = result.getDate(6);
+        this.description = result.getString(7);
+        this.done = result.getBoolean(8);
+        this.notes = result.getString(9);
+        this.statuschange_date = result.getDate(10);
     }
 
     public enum Filter {
@@ -235,7 +236,15 @@ public class Task implements Item {
         try {
             if (isNew) {
                 statement = DataLayer.getConnection().prepareStatement(
-                        "insert into actions values (null, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS
+                        "insert into actions set " +
+                                "context_id = ?, " +
+                                "project_id = ?, " +
+                                "status_id = ?, " +
+                                "action_date = ?, " +
+                                "description = ?, " +
+                                "done = ?, " +
+                                "notes = ?, " +
+                                "statuschange_date = ?;", Statement.RETURN_GENERATED_KEYS
                 );
             } else {
                 statement = DataLayer.getConnection().prepareStatement(
@@ -260,8 +269,8 @@ public class Task implements Item {
             statement.setNull(2, Types.INTEGER);
             //statement.setInt(2, 5);
             // status_id
-            statement.setNull(3, Types.INTEGER);
-            //statement.setInt(2, 5);
+//            statement.setNull(3, Types.INTEGER);
+            statement.setInt(3, status.getId());
             // action_date
             if (action_date == null)
                 statement.setNull(4, Types.DATE);
@@ -280,16 +289,18 @@ public class Task implements Item {
             statement.executeUpdate();
             if (isNew) {
                 ResultSet rs = statement.getGeneratedKeys();
+                rs.next();
                 id = rs.getInt(1);
                 isNew = false;
             }
         } catch (SQLException e) {
-            throw new ConnectionException();
+            throw new ConnectionException(e.getMessage());
         } finally {
-            assert statement != null;
-            try {
-                statement.close();
-            } catch (SQLException ignored) {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ignored) {
+                }
             }
         }
     }
@@ -346,11 +357,11 @@ public class Task implements Item {
         this.done = done;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
         this.statuschange_date = new java.util.Date();
     }
