@@ -3,9 +3,7 @@ package models;
 import util.DataLayer;
 import util.exceptions.ConnectionException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +11,39 @@ import java.util.List;
  * Author: nanne
  */
 public class Context {
-    private int id;
+    private int id = 0;
     private String name;
+
+    public Context() {}
+    public Context(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Context(String name) throws ConnectionException {
+        PreparedStatement stat1 = null;
+        try {
+            Connection connection = DataLayer.getConnection();
+            stat1 = connection.prepareStatement("select id, name from contexts where name = ?");
+            stat1.setString(1, name);
+            ResultSet result = stat1.executeQuery();
+            if(result.next()) {
+                fromResultSet(result);
+            } else {
+                PreparedStatement stat2 = connection.prepareStatement("INSERT INTO contexts SET name = ?", Statement.RETURN_GENERATED_KEYS);
+                stat2.setString(1, name);
+                stat2.executeUpdate();
+                ResultSet res = stat2.getGeneratedKeys();
+                res.next();
+                this.id = res.getInt(1);
+                this.name = name;
+                stat2.close();
+            }
+            stat1.close();
+        } catch (SQLException e) {
+            throw new ConnectionException(e.getMessage());
+        }
+    }
 
     public static List<Context> all() throws ConnectionException {
         List<Context> list = new ArrayList<Context>();

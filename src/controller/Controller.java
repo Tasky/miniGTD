@@ -50,7 +50,7 @@ public class Controller {
         refreshTasks();
     }
 
-    private void refreshTasks() {
+    public void refreshTasks() {
         if(!itemSort.equals("tasks")) return;
 
         try {
@@ -221,6 +221,14 @@ public class Controller {
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
+        }
+    }
+
+    public void secureSave(Task task) {
+        try {
+            task.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
         }
     }
 

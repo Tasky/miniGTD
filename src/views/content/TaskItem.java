@@ -1,6 +1,7 @@
 package views.content;
 
 import controller.Controller;
+import models.Status;
 import models.Task;
 import net.miginfocom.swing.MigLayout;
 
@@ -9,21 +10,34 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
 public class TaskItem extends JPanel implements Transferable, DragGestureListener {
     private DragSource source;
+    private final Controller controller;
     private Task task;
     public static final DataFlavor FLAVOR = new DataFlavor(Task.class, "Task");
 
     public TaskItem(final Controller controller, final Task task) {
+        this.controller = controller;
         this.task = task;
         setOpaque(false);
         setLayout(new MigLayout("", "[][grow][]"));
 
-        add(new JCheckBox());
+        final JCheckBox checkBox = new JCheckBox();
+        checkBox.setSelected(task.isDone());
+        checkBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                task.setDone(checkBox.isSelected());
+                controller.save(task);
+            }
+        });
+        add(checkBox);
         JLabel label = new JLabel(task.getDescription());
         label.setCursor(new Cursor(Cursor.HAND_CURSOR));
         label.addMouseListener(new MouseAdapter() {
@@ -37,11 +51,18 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
         });
         add(label, "growx");
 
-        add(new JLabel(task.getContext()));
+        add(new JLabel("#"+task.getContext()));
 
-        JComboBox statuses = new JComboBox(controller.getStatuses().toArray());
+        final JComboBox statuses = new JComboBox(controller.getStatuses().toArray());
         statuses.setSelectedItem(task.getStatus());
         add(statuses);
+        statuses.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                task.setStatus((Status) statuses.getSelectedItem());
+                controller.save(task);
+            }
+        });
 
         String date = "";
         if(task.getActionDate() != null)
@@ -68,7 +89,12 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
 
     @Override
     public void dragGestureRecognized(DragGestureEvent dragGestureEvent) {
-        source.startDrag(dragGestureEvent, DragSource.DefaultMoveDrop, this, new DragSourceAdapter() {});
+        source.startDrag(dragGestureEvent, DragSource.DefaultMoveDrop, this, new DragSourceAdapter() {
+            @Override
+            public void dragDropEnd(DragSourceDropEvent dragSourceDropEvent) {
+                controller.refreshTasks();
+            }
+        });
     }
 
     @Override

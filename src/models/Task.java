@@ -14,9 +14,9 @@ import java.util.List;
 public class Task implements Item {
     private int id = 0;
     private String description = "";
-    private Status status;
     private String notes = "";
-    private String context = "";
+    private Status status;
+    private Context context = null;
     private int project_id = 0;
     private Date action_date;
     private Date statuschange_date;
@@ -24,7 +24,8 @@ public class Task implements Item {
     private boolean isNew = true;
 
     private static final String SQL = "actions.id as id, " +
-            "contexts.name as context, " +
+            "contexts.id as context_id, " +
+            "contexts.name as context_name, " +
             "projects.id as project_id, " +
             "statuses.id as status_id, " +
             "statuses.name as status_name, " +
@@ -43,14 +44,14 @@ public class Task implements Item {
     private void fromResultSet(ResultSet result) throws SQLException {
         isNew = false;
         this.id = result.getInt(1);
-        this.context = result.getString(2);
-        this.project_id = result.getInt(3);
-        this.status = new Status(result.getInt(4), result.getString(5));
-        this.action_date = result.getDate(6);
-        this.description = result.getString(7);
-        this.done = result.getBoolean(8);
-        this.notes = result.getString(9);
-        this.statuschange_date = result.getDate(10);
+        if(result.getInt(2) != 0) this.context = new Context(result.getInt(2), result.getString(3));
+        this.project_id = result.getInt(4);
+        this.status = new Status(result.getInt(5), result.getString(6));
+        this.action_date = result.getDate(7);
+        this.description = result.getString(8);
+        this.done = result.getBoolean(9);
+        this.notes = result.getString(10);
+        this.statuschange_date = result.getDate(11);
     }
 
     public enum Filter {
@@ -285,11 +286,11 @@ public class Task implements Item {
             }
 
             // context_id
-//            if(!getContext().equals("")){
-//                statement.setInt(1, 1);
-//            } else {
+            if(context != null && context.getId() != 0){
+                statement.setInt(1, context.getId());
+            } else {
                 statement.setNull(1, Types.INTEGER);
-//            }
+            }
 
             // project_id
             if(project_id != 0) {
@@ -299,7 +300,6 @@ public class Task implements Item {
             }
 
             // status_id
-//            statement.setNull(3, Types.INTEGER);
             statement.setInt(3, status.getId());
             // action_date
             if (action_date == null)
@@ -352,11 +352,13 @@ public class Task implements Item {
     }
 
     public String getContext() {
-        return context;
+        if(context != null)
+            return context.getName();
+        else return "";
     }
 
-    public void setContext(String context) {
-        this.context = context;
+    public void setContext(String name) throws ConnectionException {
+        if(!name.isEmpty()) this.context = new Context(name);
     }
 
     public Project getProject() throws ConnectionException {
