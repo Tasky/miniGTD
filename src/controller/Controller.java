@@ -68,6 +68,7 @@ public class Controller implements Observer {
                 this.showThoughts(Thought.all(), true);
                 return;
             }
+
             formEnabled = true;
             if (action.equals("today")) {
                 filter = Task.Filter.TODAY;
@@ -80,6 +81,11 @@ public class Controller implements Observer {
             } else if (action.equals("history")) {
                 formEnabled = false;
                 filter = Task.Filter.HISTORY;
+            } else if (action.startsWith("project_")) {
+                formEnabled = false;
+                Integer project_id = Integer.valueOf(action.substring("project_".length()));
+                filter = Task.Filter.PROJECT;
+                Task.Filter.PROJECT.setProject_id(project_id);
             }
 
             frame.showTasks(Task.all(filter, order, asc), order, asc, formEnabled);
@@ -144,6 +150,10 @@ public class Controller implements Observer {
                 return "Ooit ("+Task.count(Task.Filter.EVER)+ ")";
             } else if (action.equals("history")) {
                 return "Logboek ("+Task.count(Task.Filter.HISTORY)+ ")";
+            } else if (action.startsWith("project_")) {
+                Integer project_id = Integer.valueOf(action.substring("project_".length()));
+                Project p = new Project(project_id);
+                return "Project " + p.getName();
             }
         } catch (ConnectionException ignored) { }
         return "";
