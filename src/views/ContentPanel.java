@@ -48,7 +48,7 @@ public class ContentPanel extends JPanel {
         holder.setLayout(new MigLayout("gap 20px", "[grow]", "[]"));
         holder.setOpaque(false);
         for(models.Thought thought : thoughts) {
-            holder.add(new ThoughtItem(thought), "span, growx");
+            holder.add(new ThoughtItem(controller, thought), "span, growx");
         }
         add(holder, "span, growx");
         revalidate();
