@@ -14,11 +14,9 @@ public class DataLayer {
     public static Connection getConnection() {
         try {
             if (con == null || con.isClosed()) {
-                    //con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/tslot_db",
-                    //        "tslot",
-                    //        "b8I54LMZ");
-                    con = DriverManager.getConnection("jdbc:mysql://chilika.roconda.nl/minigtd_db", "minigtd", "SfNDBWHPpC6A2epY");
-
+                con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/tslot_db",
+                        "tslot",
+                        "b8I54LMZ");
             }
         } catch (SQLException e) {
             e.printStackTrace();
