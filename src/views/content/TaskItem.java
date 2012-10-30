@@ -16,9 +16,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Author: nanne
- */
+
 public class TaskItem extends JPanel implements Transferable, DragGestureListener {
     private DragSource source;
     private Task task;

@@ -152,6 +152,15 @@ public class Controller implements Observer {
         }
     }
 
+    public void saveThought(Thought thought) {
+        try {
+            thought.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         try{
@@ -162,4 +171,5 @@ public class Controller implements Observer {
             e.printStackTrace();
         }
     }
+
 }
