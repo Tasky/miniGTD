@@ -11,6 +11,7 @@ import models.Project;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import models.Task;
 import net.miginfocom.swing.MigLayout;
 
@@ -26,14 +27,14 @@ public class TaskPopup extends JPopupMenu {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.out.println("foo");
-                int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
-                if (returnal == JOptionPane.YES_OPTION) {
+                //int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
+                //if (returnal == JOptionPane.YES_OPTION) {
                     removeAll();
                     setLayout(new MigLayout("", "[grow]"));
                     add(new TaskForm(controller, t), "grow");
                     revalidate();
                     repaint();
-                }
+                //}
             }
         });
         add(wijzigen);
@@ -42,13 +43,13 @@ public class TaskPopup extends JPopupMenu {
         verwijderen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("foo");
                 int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
-//                    controller.removeProject(t);
+                    controller.remove(t);
                 }
             }
         });
         add(verwijderen);
     }
+
 }

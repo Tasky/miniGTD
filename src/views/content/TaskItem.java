@@ -52,6 +52,7 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
         source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);
     }
 
+
     @Override
     public void paint(Graphics g2) {
         Graphics2D g = (Graphics2D) g2;

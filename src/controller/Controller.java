@@ -17,10 +17,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.Task.Sort;
 
 /**
@@ -270,5 +266,15 @@ public class Controller {
             ex.printStackTrace();
             frame.showConnectionError();
         }
+    }
+    
+    public void remove(Task task) {
+        try {
+            task.remove();
+            refresh();
+        } catch (ConnectionException ex) {
+            ex.printStackTrace();
+            frame.showConnectionError();
+        }        
     }
 }
