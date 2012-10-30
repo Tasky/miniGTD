@@ -4,15 +4,16 @@
  */
 package controller;
 
+import models.Context;
 import models.Status;
 import models.Task;
 import models.Thought;
+import models.Project;
 import util.exceptions.ConnectionException;
 import views.MainWindow;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.Project;
 
 /**
  *
@@ -62,6 +63,31 @@ public class Controller {
         return list;
     }
 
+    public List<String> getContexts() {
+        List<String> list = new ArrayList<String>();
+        list.add("");
+        try {
+            List<Context> contexts = Context.all();
+            for (Context context : contexts)
+                list.add(context.getName());
+        } catch (ConnectionException e) {
+            frame.showConnectionError();
+        }
+        return list;
+    }
+
+    public List<Project> getProjects() {
+        List<Project> list = new ArrayList<Project>();
+        try {
+            List<Project> tmp = Project.all();
+            for(Project p : tmp)
+                list.add(p);
+        }catch(ConnectionException e) {
+            frame.showConnectionError();
+        }
+        return list;
+    }
+
     public String getActionName(String action) {
         if (action.equals("inbox")) {
             return "Inbox (2)";
@@ -78,18 +104,5 @@ public class Controller {
         } else {
             return "";
         }
-    }
-    
-    public List<Project> getProjects() {
-        List<Project> list = new ArrayList<Project>();
-        try{
-           List<Project> tmp = Project.all();
-           for(Project p : tmp)
-               list.add(p);
-        
-        }catch(ConnectionException e) {
-            frame.showConnectionError();
-        }
-        return list;
     }
 }

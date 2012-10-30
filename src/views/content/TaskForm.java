@@ -31,7 +31,7 @@ public class TaskForm extends JPanel {
         description = new JTextField();
         notes = new JTextArea(3, 20);
 
-        context = new JComboBox(new String[]{"Bird", "Cat", "Dog", "Rabbit", "Pig"});
+        context = new JComboBox(controller.getContexts().toArray());
         context.setEditable(true);
 
         dateChooser = new JXDatePicker();
@@ -50,27 +50,21 @@ public class TaskForm extends JPanel {
         notes = new JTextArea(3, 20);
         notes.setText(task.getNotes());
 
-        context = new JComboBox(new String[]{"Bird", "Cat", "Dog", "Rabbit", "Pig"});
+        context = new JComboBox(controller.getContexts().toArray());
         context.setEditable(true);
+        status.setSelectedItem(task.getContext());
+
         dateChooser = new JXDatePicker(task.getActionDate());
         status = new JComboBox(controller.getStatuses().toArray());
         status.setSelectedItem(task.getStatus());
 
         button = new JButton("Aanpassen");
-
         generateForm();
     }
 
     private void generateForm() {
         dateChooser.setLocale(getLocale());
         dateChooser.setFormats(DateFormat.getDateInstance());
-//        dateChooser.setDateFormatString("dd-MM-yyyy");
-//        dateChooser.setMaximumSize(new Dimension(150, 20));
-//        dateChooser.getJCalendar().setMaximumSize(new Dimension(150, 20));//.setBackground(Color.black);
-//
-
-//        dateChooser.getDateEditor().getUiComponent().setBackground(Color.black);
-//        dateChooser.setUI(new javax.swing.plaf.basic.BasicPanelUI());
 
         setBackground(Color.white);
         add(new JLabel("Actie:"));

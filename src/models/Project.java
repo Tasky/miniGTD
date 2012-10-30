@@ -10,8 +10,8 @@ import util.exceptions.ConnectionException;
  * Author: tim
  */
 public class Project implements Item {
-    private String name = "";
     private String note = "";
+    private String name = "";
     private boolean isNew;
     private int id = -1;
 
