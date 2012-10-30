@@ -11,7 +11,7 @@ import java.util.List;
  * Author: nanne
  */
 public class Context {
-    private int id;
+    private int id = 0;
     private String name;
 
     public Context() {}

@@ -76,6 +76,7 @@ public class TaskForm extends JPanel {
         try {
             task.setContext((String) context.getSelectedItem());
         } catch (ConnectionException ignored) {
+            System.out.println(ignored.getMessage());
 
         }
         task.setDescription(description.getText());
