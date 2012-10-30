@@ -35,6 +35,7 @@ public class Controller {
     private Task.Filter filter;
     private boolean formEnabled = true;
     private String action = "inbox";
+    private String itemSort = "tasks";
 
     public Controller() {
         frame = new MainWindow(this);
@@ -54,6 +55,8 @@ public class Controller {
     }
 
     private void refreshTasks() {
+        if(!itemSort.equals("tasks")) return;
+
         try {
             frame.updateTasks(Task.all(filter, order, asc), order, asc, formEnabled);
         } catch (ConnectionException e) {
@@ -64,6 +67,8 @@ public class Controller {
     }
 
     private void refreshThoughts() {
+        if(!itemSort.equals("thoughts")) return;
+
         try {
             frame.updateThoughts(Thought.all());
         } catch (ConnectionException e) {
@@ -106,7 +111,7 @@ public class Controller {
                 Task.Filter.PROJECT.setProject_id(project_id);
             }
 
-            frame.showTasks(Task.all(filter, order, asc), order, asc, formEnabled);
+            showTasks(Task.all(filter, order, asc), order, asc, formEnabled);
         } catch (ConnectionException e) {
             frame.showConnectionError();
             e.printStackTrace();
@@ -114,7 +119,13 @@ public class Controller {
     }
 
     private void showThoughts(List<Thought> all) {
+        itemSort = "thoughts";
         frame.showThoughts(all);
+    }
+
+    private void showTasks(List<Task> all, Sort order, boolean asc, boolean formEnabled) {
+        itemSort = "tasks";
+        frame.showTasks(all, order, asc, formEnabled);
     }
 
     public List<Status> getStatuses() {
