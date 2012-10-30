@@ -75,7 +75,7 @@ public class Controller implements Observer {
         for(Thought t : all)
             t.addObserver(this);
 
-        frame.showThoughts(all, b);
+        frame.showThoughts(all);
     }
 
     public List<Status> getStatuses() {
@@ -154,10 +154,9 @@ public class Controller implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("bier");
         try{
             if( arg instanceof Thought) {
-                frame.showThoughts(Thought.all(), false);
+                frame.updateThoughts(Thought.all());
             }
         }catch(ConnectionException e){
             e.printStackTrace();

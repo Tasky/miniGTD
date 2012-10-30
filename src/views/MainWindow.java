@@ -11,7 +11,6 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 import models.Task.Sort;
 
@@ -55,9 +54,14 @@ public class MainWindow extends JFrame {
         contentpane.setBackground(Color.RED);
     }
 
-    public void showThoughts(List<Thought> thoughts, boolean b) {
-        contentpane.showThoughts(thoughts, b);
+    public void showThoughts(List<Thought> thoughts) {
+        contentpane.showThoughts(thoughts);
     }
+
+    public void updateThoughts(List<Thought> all) {
+        contentpane.updateThoughts(all);
+    }
+
     public void showTasks(List<Task> tasks, boolean formVisible) {
         contentpane.showTasks(tasks, Sort.ORDER, true, formVisible);
     }
