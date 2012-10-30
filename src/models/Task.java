@@ -134,6 +134,7 @@ public class Task implements Item {
                 t.fromResultSet(rs);
                 tasks.add(t);
             }
+            stmt.close();
             return tasks;
         } catch (SQLException e) {
             throw new ConnectionException(e.getMessage());
@@ -160,6 +161,7 @@ public class Task implements Item {
             if(rs.next()) {
                 return rs.getInt(1);
             }
+            stmt.close();
             return 0;
         } catch (SQLException e) {
             throw new ConnectionException(e.getMessage());
@@ -191,6 +193,7 @@ public class Task implements Item {
                 t.fromResultSet(rs);
                 tasks.add(t);
             }
+            stmt.close();
             return tasks;
         } catch (SQLException e) {
             throw new ConnectionException(e.getMessage());
@@ -215,6 +218,7 @@ public class Task implements Item {
                     id = -1;
                     isNew = true;
                 }
+                statement.close();
             } catch (SQLException e) {
                 throw new ConnectionException();
             }
