@@ -198,6 +198,15 @@ public class Controller implements Observer {
         }
     }
 
+    public void save(Project p) {
+        try {
+            p.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         frame.setTitle(getActionName(action));
@@ -210,6 +219,7 @@ public class Controller implements Observer {
             frame.updateFilters();
         }catch(ConnectionException e){
             e.printStackTrace();
+            frame.showConnectionError();
         }
     }
 
@@ -217,13 +227,10 @@ public class Controller implements Observer {
         return action;
     }
 
-    public void remove(Object o) {
+    public void remove(Thought t) {
         try {
-            if(o instanceof Thought) {
-                Thought o = (Thought)o;
-            }
-            o.remove();
-        } catch (Exception ex) {
+            t.remove();
+        } catch (ConnectionException ex) {
             ex.printStackTrace();
         }
     }

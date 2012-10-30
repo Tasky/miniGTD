@@ -42,8 +42,6 @@ public class ThoughtItem extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new MigLayout("ins 0"));
         buttonPanel.setOpaque(false);
-        
-        removeBtn.setName(""+thought.getId());
 
         makeActionBtn.addActionListener(new ActionListener() {
             @Override
@@ -63,8 +61,7 @@ public class ThoughtItem extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 int returnal = JOptionPane.showConfirmDialog(null, "Weet je zeker dat je dit wilt verwijderen?", "alert", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {;
-                    JButton btn = (JButton)actionEvent.getSource();
-                    controller.removeThought(Integer.parseInt(btn.getName()));
+                    controller.remove(thought);
                 }
             }
         });
