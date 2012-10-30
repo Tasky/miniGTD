@@ -24,4 +24,11 @@ public class DataLayer {
         }
         return con;
     }
+    public static void closeConnection() {
+        try {
+            if (con != null && con.isClosed()) {
+                con.close();
+            }
+        } catch (SQLException ignored) { }
+    }
 }
