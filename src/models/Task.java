@@ -286,7 +286,7 @@ public class Task implements Item {
             }
 
             // context_id
-            if(context != null){
+            if(context != null && context.getId() != 0){
                 statement.setInt(1, context.getId());
             } else {
                 statement.setNull(1, Types.INTEGER);
