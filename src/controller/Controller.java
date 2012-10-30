@@ -204,4 +204,9 @@ public class Controller implements Observer {
     public String getAction() {
         return action;
     }
+
+    public void removeThought(int id) {
+        Thought t = new Thought(id);
+        t.remove();
+    }
 }

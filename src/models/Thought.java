@@ -24,15 +24,15 @@ public class Thought extends Observable implements Item {
     }
     
     public Thought(int id) {
-        //TODO: get info from SQL
+        this.id = id;
     }
     
     public Thought() {
         this.isNew = true;
     }
 
-    public String getNote() {
-        return this.notes;
+    public int getId() {
+        return this.id;
     }
     
     public void save() throws ConnectionException {
