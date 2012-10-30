@@ -165,6 +165,7 @@ public class Controller implements Observer {
     }
 
     public void add(Task task) {
+        task.addObserver(this);
         try {
             task.save();
         } catch (ConnectionException e) {
@@ -177,6 +178,17 @@ public class Controller implements Observer {
         thought.addObserver(this);
         try {
             thought.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
+
+
+    public void add(Project p) {
+        p.addObserver(this);
+        try {
+            p.save();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();

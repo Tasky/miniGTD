@@ -95,28 +95,12 @@ public class Project extends Observable implements Item {
 
     }
 
-    public void create() throws ConnectionException {
-        try {
-            PreparedStatement statement = null;
-
-            statement = DataLayer.getConnection().prepareStatement("INSERT INTO projects SET name = ?, notes = ?");
-            statement.setString(1, name);
-            statement.setString(2, note);
-            statement.execute();
-            statement.close();
-            this.setChanged();
-            this.notifyObservers(this);
-        } catch (SQLException ex) {
-            throw new ConnectionException();
-        }
-    }
 
     public static List<Project> all() throws ConnectionException {
         List<Project> list = new ArrayList<Project>();
         PreparedStatement statement = null;
 
-        try{
-
+        try {
             statement = DataLayer.getConnection().prepareStatement("SELECT id, name, notes FROM projects");
             statement.execute();
             ResultSet res = statement.getResultSet();

@@ -18,21 +18,17 @@ import javax.swing.JLabel;
  *
  * @author tim
  */
-    public class Tab extends JLabel {
+    public class Tab extends IconLabel {
         private String action;
         private static Tab active;
 
         public Tab(String image, String action, final Controller controller) {
-            super();
+            super(image);
             this.action = action;
             if(controller.getAction().equals(action)) {
                 setActive(true);
             }
             setText(controller.getActionName(action));
-            setIcon(new ImageIcon(getClass().getResource("/resources/icons/" + image)));
-            setFont(new Font("Sans-serif", Font.PLAIN, 11));
-            setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 0));
-            setCursor(new Cursor(Cursor.HAND_CURSOR));
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {
