@@ -8,6 +8,7 @@ package views.content;
 import controller.Controller;
 import models.Status;
 import models.Task;
+import models.Thought;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 import java.awt.*;
@@ -20,37 +21,26 @@ import javax.swing.*;
 
 public class TaskForm extends JPanel {
 
-    private JXDatePicker dateChooser;
+    private JXDatePicker dateChooser = new JXDatePicker();
     private JComboBox context;
-    private JTextArea notes;
-    private JTextField description;
+    private JTextArea notes = new JTextArea(3, 20);
+    private JTextField description = new JTextField();
     private JComboBox status;
     private JButton button;
 
     public TaskForm(final Controller controller) {
         super(null);
+        setBackground(Color.white);
         setLayout(new MigLayout("", "[][grow]", ""));
 
-        description = new JTextField();
-        notes = new JTextArea(3, 20);
-
-        context = new JComboBox(controller.getContexts().toArray());
-        context.setEditable(true);
-
-        dateChooser = new JXDatePicker();
-
-        status = new JComboBox(controller.getStatuses().toArray());
+        fillComboBoxes(controller);
 
         button = new JButton("Toevoegen");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 Task task = new Task();
-                task.setActionDate(dateChooser.getDate());
-                task.setContext((String) context.getSelectedItem());
-                task.setDescription(description.getText());
-                task.setNotes(notes.getText());
-                task.setStatus((Status) status.getSelectedItem());
+                applyToTask(task);
                 controller.saveTask(task);
             }
         });
@@ -58,40 +48,55 @@ public class TaskForm extends JPanel {
     }
     public TaskForm(final Controller controller, final Task task) {
         super(null);
+        setBackground(Color.white);
         setLayout(new MigLayout("ins 0", "[][grow]", ""));
-
-        description = new JTextField(task.getDescription());
-        notes = new JTextArea(3, 20);
+        description.setText(task.getDescription());
         notes.setText(task.getNotes());
 
-        context = new JComboBox(controller.getContexts().toArray());
-        context.setEditable(true);
+        fillComboBoxes(controller);
+
+        status.setSelectedItem(task.getStatus());
         context.setSelectedItem(task.getContext());
 
-        dateChooser = new JXDatePicker(task.getActionDate());
-        status = new JComboBox(controller.getStatuses().toArray());
-        status.setSelectedItem(task.getStatus());
+        dateChooser.setDate(task.getActionDate());
 
         button = new JButton("Aanpassen");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                task.setActionDate(dateChooser.getDate());
-                task.setContext((String) context.getSelectedItem());
-                task.setDescription(description.getText());
-                task.setNotes(notes.getText());
-                task.setStatus((Status) status.getSelectedItem());
+                applyToTask(task);
                 controller.saveTask(task);
             }
         });
         generateForm();
     }
 
+    public void applyToTask(Task task) {
+        task.setActionDate(dateChooser.getDate());
+        task.setContext((String) context.getSelectedItem());
+        task.setDescription(description.getText());
+        task.setNotes(notes.getText());
+        task.setStatus((Status) status.getSelectedItem());
+    }
+
+    public TaskForm(Controller controller, Thought thought) {
+        super(null);
+        setLayout(new MigLayout("ins 0", "[][grow]", ""));
+        notes.setText(thought.getNotes());
+        fillComboBoxes(controller);
+        generateForm();
+    }
+
+    private void fillComboBoxes(Controller controller) {
+        context = new JComboBox(controller.getContexts().toArray());
+        context.setEditable(true);
+        status = new JComboBox(controller.getStatuses().toArray());
+    }
+
     private void generateForm() {
         dateChooser.setLocale(getLocale());
         dateChooser.setFormats(DateFormat.getDateInstance());
 
-        setBackground(Color.white);
         add(new JLabel("Actie:"));
         add(description, "span, grow");
         add(new JLabel("Notities:"), "wrap");
@@ -110,7 +115,12 @@ public class TaskForm extends JPanel {
         panel.add(generateField(new JLabel("Status:"), status));
         panel.add(new JLabel(""), "growx");
 
-        panel.add(button, "align right");
+        if(button != null){
+            panel.add(button, "align right");
+        } else {
+            panel.add(new JLabel(""), "align right");
+        }
+
         add(panel, "span, growx");
     }
 
