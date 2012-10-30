@@ -59,16 +59,30 @@ public class Task extends Observable implements Item {
         NEXT("not done"),
         PLANNED("not done"),
         EVER("not done and statuses.name = 'ooit'"),
-        HISTORY("done");
+        HISTORY("done"),
+        PROJECT("1");
 
         private final String where;
+        private int project_id = -1;
 
         Filter(String where) {
             this.where = where;
         }
 
         public String getWhere() {
-            return where;
+            if(project_id != -1) {
+                return "project_id = "+project_id;
+            } else {
+                return where;
+            }
+        }
+
+        public int getProject_id() {
+            return project_id;
+        }
+
+        public void setProject_id(int project_id) {
+            this.project_id = project_id;
         }
     }
 
