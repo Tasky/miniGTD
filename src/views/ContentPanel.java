@@ -66,7 +66,7 @@ public class ContentPanel extends JPanel {
         repaint();
     }
 
-    public void showTasks(List<Task> tasks, Task.Sort currentSort, boolean asc, boolean formVisible) {
+    public void showTasks(List<Task> tasks, final Task.Sort currentSort, final boolean asc, boolean formVisible) {
         removeAll();
 
         if (formVisible) {
@@ -98,15 +98,13 @@ public class ContentPanel extends JPanel {
         for(final Sort sort : sorts) {
             String name = sort.name;
             if(currentSort.equals(sort.sort))
-                if(asc)
-                    name += " ↓";
-                else
-                    name += " ↑";
+                if(asc) name += " ↓";
+                else name += " ↑";
             JButton jButton = new JButton(name);
             jButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    controller.sort(sort.sort);
+                    controller.sort(sort.sort, !sort.sort.equals(currentSort) || !asc);
                 }
             });
             sortPanel.add(jButton);
