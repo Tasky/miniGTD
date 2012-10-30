@@ -9,9 +9,12 @@ import models.Status;
 import models.Task;
 import models.Thought;
 import models.Project;
+import util.DataLayer;
 import util.exceptions.ConnectionException;
 import views.MainWindow;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,12 @@ public class Controller {
     public Controller() {
         frame = new MainWindow(this);
         open("inbox");
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                DataLayer.closeConnection();
+            }
+        });
     }
 
     public void open(String action) {
