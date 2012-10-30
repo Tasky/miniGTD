@@ -1,7 +1,6 @@
 package views.content;
 
 import controller.Controller;
-import models.Status;
 import models.Task;
 import net.miginfocom.swing.MigLayout;
 
@@ -9,17 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.List;
 
 
 public class TaskItem extends JPanel implements Transferable, DragGestureListener {
     private DragSource source;
     private Task task;
+    public static final DataFlavor FLAVOR = new DataFlavor(Task.class, "Task");
 
     public TaskItem(final Controller controller, final Task task) {
         this.task = task;
@@ -83,7 +80,7 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
 
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        return new DataFlavor[]{new DataFlavor(Task.class, "Task")};
+        return new DataFlavor[]{FLAVOR};
     }
 
     @Override

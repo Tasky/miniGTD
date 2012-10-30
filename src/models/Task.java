@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
 import java.util.List;
-import java.util.Observable;
 
 /**
  * Author: nanne
  */
 public class Task implements Item {
-    private int id = -1;
+    private int id = 0;
     private String description = "";
     private Status status;
     private String notes = "";
     private String context = "";
-    private String project = "";
+    private int project_id = 0;
     private Date action_date;
     private Date statuschange_date;
     private boolean done = false;
@@ -26,7 +25,7 @@ public class Task implements Item {
 
     private static final String SQL = "actions.id as id, " +
             "contexts.name as context, " +
-            "projects.name as project, " +
+            "projects.id as project_id, " +
             "statuses.id as status_id, " +
             "statuses.name as status_name, " +
             "actions.action_date as action_date, " +
@@ -45,7 +44,7 @@ public class Task implements Item {
         isNew = false;
         this.id = result.getInt(1);
         this.context = result.getString(2);
-        this.project = result.getString(3);
+        this.project_id = result.getInt(3);
         this.status = new Status(result.getInt(4), result.getString(5));
         this.action_date = result.getDate(6);
         this.description = result.getString(7);
@@ -63,14 +62,14 @@ public class Task implements Item {
         PROJECT("1");
 
         private final String where;
-        private int project_id = -1;
+        private int project_id = 0;
 
         Filter(String where) {
             this.where = where;
         }
 
         public String getWhere() {
-            if(project_id != -1) {
+            if(project_id != 0) {
                 return "project_id = "+project_id;
             } else {
                 return where;
@@ -239,7 +238,7 @@ public class Task implements Item {
                 );
                 statement.setInt(1, id);
                 if (statement.executeUpdate() == 1) {
-                    id = -1;
+                    id = 0;
                     isNew = true;
                 }
                 statement.close();
@@ -286,11 +285,19 @@ public class Task implements Item {
             }
 
             // context_id
-            statement.setNull(1, Types.INTEGER);
-            // statement.setInt(1, 1);
+//            if(!getContext().equals("")){
+//                statement.setInt(1, 1);
+//            } else {
+                statement.setNull(1, Types.INTEGER);
+//            }
+
             // project_id
-            statement.setNull(2, Types.INTEGER);
-            //statement.setInt(2, 5);
+            if(project_id != 0) {
+                statement.setInt(2, project_id);
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+
             // status_id
 //            statement.setNull(3, Types.INTEGER);
             statement.setInt(3, status.getId());
@@ -352,12 +359,12 @@ public class Task implements Item {
         this.context = context;
     }
 
-    public String getProject() {
-        return project;
+    public Project getProject() throws ConnectionException {
+        return new Project(project_id);
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setProject(Project project) {
+        this.project_id = project.getId();
     }
 
     public Date getActionDate() {
