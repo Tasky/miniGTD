@@ -29,6 +29,7 @@ public class Controller implements Observer {
     
     private MainWindow frame;
     private Sort order = Sort.ORDER;
+    private String action;
     
     public Controller() {
         frame = new MainWindow(this);
@@ -42,10 +43,13 @@ public class Controller implements Observer {
     }
     
     public void sort(Sort s) {
+
         order = s;
+        open(action);
     }
 
     public void open(String action) {
+        this.action = action;
         try {
             frame.setTitle(getActionName(action));
             if (action.equals("inbox")) {
