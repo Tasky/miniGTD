@@ -23,7 +23,7 @@ public class ProjectPopup extends JPopupMenu {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 JTextField name = new JTextField(p.getName());
-                JTextArea notes = new JTextArea(p.getNote());
+                JTextArea notes = new JTextArea(p.getNotes());
                 notes.setRows(3);
                 notes.setColumns(40);
                 final JComponent[] inputs = new JComponent[] {
@@ -35,7 +35,7 @@ public class ProjectPopup extends JPopupMenu {
                 int returnal = JOptionPane.showConfirmDialog(null, inputs, "Project hernoemen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
                     p.setName(name.getText());
-                    p.setNote(notes.getText());
+                    p.setNotes(notes.getText());
                     controller.save(p);
                 }
             }

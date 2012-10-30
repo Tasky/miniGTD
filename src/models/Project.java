@@ -9,15 +9,10 @@ import java.util.Observable;
 import util.exceptions.ConnectionException;
 
 public class Project extends Observable implements Item {
-    private String note = "";
+    private String notes = "";
     private String name = "";
     private boolean isNew;
     private int id = -1;
-
-    public Project(String name) {
-        this.name = name;
-        this.isNew = true;
-    }
 
     public Project(int id) throws ConnectionException {
         isNew = false;
@@ -43,34 +38,34 @@ public class Project extends Observable implements Item {
     }
 
     public Project() {
-
+        this.isNew = true;
     }
 
     public void save() throws ConnectionException {
         PreparedStatement statement = null;
-
         if(isNew) {
             try {
-                statement = DataLayer.getConnection().prepareStatement("INSERT INTO projects SET name = ?, notes = ?");
+                statement = DataLayer.getConnection().prepareStatement("INSERT INTO projects SET name = ?, notes = ?", Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, name);
-                statement.setString(2, note);
-                statement.executeQuery();
+                statement.setString(2, notes);
+                statement.executeUpdate();
                 ResultSet res = statement.getGeneratedKeys();
+                res.next();
                 this.id = res.getInt(1);
                 statement.close();
             } catch (SQLException ex) {
-                throw new ConnectionException();
+                throw new ConnectionException(ex.getMessage());
             }
-        }else if(id > 0){
+        } else {
             try {
                 statement = DataLayer.getConnection().prepareStatement("UPDATE projects SET name = ?, notes = ? WHERE id = ?");
                 statement.setString(1, name);
-                statement.setString(2, note);
+                statement.setString(2, notes);
                 statement.setInt(3, id);
-                statement.execute();
+                statement.executeUpdate();
                 statement.close();
             } catch (SQLException ex) {
-                throw new ConnectionException();
+                throw new ConnectionException(ex.getMessage());
             }
         }
         this.setChanged();
@@ -95,28 +90,11 @@ public class Project extends Observable implements Item {
 
     }
 
-    public void create() throws ConnectionException {
-        try {
-            PreparedStatement statement = null;
-
-            statement = DataLayer.getConnection().prepareStatement("INSERT INTO projects SET name = ?, notes = ?");
-            statement.setString(1, name);
-            statement.setString(2, note);
-            statement.execute();
-            statement.close();
-            this.setChanged();
-            this.notifyObservers(this);
-        } catch (SQLException ex) {
-            throw new ConnectionException();
-        }
-    }
-
     public static List<Project> all() throws ConnectionException {
         List<Project> list = new ArrayList<Project>();
         PreparedStatement statement = null;
 
-        try{
-
+        try {
             statement = DataLayer.getConnection().prepareStatement("SELECT id, name, notes FROM projects");
             statement.execute();
             ResultSet res = statement.getResultSet();
@@ -139,7 +117,7 @@ public class Project extends Observable implements Item {
         this.isNew = false;
         this.id = rs.getInt("id");
         this.name = rs.getString("name");
-        this.note = rs.getString("notes");
+        this.notes = rs.getString("notes");
     }
 
 
@@ -148,16 +126,16 @@ public class Project extends Observable implements Item {
         return name;
     }
 
-    public String getNote() {
-        return this.note;
+    public String getNotes() {
+        return this.notes;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setNotes(String note) {
+        this.notes = note;
     }
 
     public int getId() {

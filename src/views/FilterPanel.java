@@ -47,7 +47,7 @@ public class FilterPanel extends JPanel {
         for (final Project p : projects) {
             Tab tab = new Tab("to_do_list.png", "project_"+p.getId(), controller);
             tab.setText(p.getName());
-            tab.setToolTipText(p.getNote());
+            tab.setToolTipText(p.getNotes());
 
             DropTarget dropTarget = new DropTarget();
             dropTarget.setDefaultActions(DnDConstants.ACTION_MOVE);
@@ -89,6 +89,31 @@ public class FilterPanel extends JPanel {
 
             add(tab, "span, growx");
         }
+        JLabel toevoegen = new IconLabel("add.png");
+        toevoegen.setText("<html><u>Toevoegen</u>");
+        toevoegen.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                Project p = new Project();
+                JTextField name = new JTextField();
+                JTextArea notes = new JTextArea();
+                notes.setRows(3);
+                notes.setColumns(40);
+                final JComponent[] inputs = new JComponent[] {
+                        new JLabel("Naam"),
+                        name,
+                        new JLabel("Notities"),
+                        new JScrollPane(notes)
+                };
+                int returnal = JOptionPane.showConfirmDialog(null, inputs, "Project aanmaken", JOptionPane.OK_CANCEL_OPTION);
+                if (returnal == JOptionPane.YES_OPTION) {
+                    p.setName(name.getText());
+                    p.setNotes(notes.getText());
+                    controller.add(p);
+                }
+            }
+        });
+        add(toevoegen, "span, growx");
 
         add(new Header("Archief"), "span, growx");
         add(new Tab("book.png", "history", controller), "span, growx");
