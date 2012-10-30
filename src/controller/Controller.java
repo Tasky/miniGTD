@@ -25,8 +25,7 @@ public class Controller {
     
     public Controller() {
         frame = new MainWindow(this);
-//        open("inbox");
-        open("today");
+        open("inbox");
     }
 
     public void open(String action) {
@@ -93,7 +92,7 @@ public class Controller {
     public String getActionName(String action) {
         try {
             if (action.equals("inbox")) {
-                return "Inbox (2)";
+                return "Inbox ("+Thought.count()+ ")";
             } else if (action.equals("today")) {
                 return "Vandaag ("+Task.count(Task.Filter.TODAY)+ ")";
             } else if (action.equals("next")) {
