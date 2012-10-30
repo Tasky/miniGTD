@@ -49,6 +49,12 @@ public class Controller implements Observer {
         try {
             frame.setTitle(getActionName(action));
             if (action.equals("inbox")) {
+                List<Thought> tl = Thought.all();
+                List<Observable> ol = new ArrayList<Observable>();
+                for(Thought t : tl)
+                    ol.add(((Observable)t));
+                
+                this.addObserver(ol);
                 frame.showThoughts(Thought.all(), true);
             } else if (action.equals("today")) {
                 frame.showTasks(Task.all(Task.Filter.TODAY), true);
