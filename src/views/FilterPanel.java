@@ -9,15 +9,20 @@ import models.Task;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 
 import models.Project;
+import views.content.TaskItem;
 import views.filter.*;
 
 public class FilterPanel extends JPanel {
@@ -55,14 +60,22 @@ public class FilterPanel extends JPanel {
                 dropTarget.addDropTargetListener(new DropTargetAdapter() {
                     @Override
                     public void drop(DropTargetDropEvent event) {
-                        Object source = event.getSource();
-                        if(source instanceof Task) {
-                            Task task = (Task) source;
-                            task.setProject(p.getName());
-                            controller.save(task);
-                        } else {
-                            event.rejectDrop();
+                        Transferable transferable = event.getTransferable();
+                        if(transferable.isDataFlavorSupported(TaskItem.FLAVOR)) {
+                            System.out.println("updating task...");
+                            Task task = null;
+                            try {
+                                task = (Task) transferable.getTransferData(TaskItem.FLAVOR);
+                                task.setProject(p);
+                                controller.save(task);
+                                return;
+                            } catch (UnsupportedFlavorException ignored) {
+
+                            } catch (IOException ignored) {
+
+                            }
                         }
+                        event.rejectDrop();
                     }
                 });
             } catch (TooManyListenersException ignored) {

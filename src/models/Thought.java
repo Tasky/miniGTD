@@ -13,7 +13,7 @@ import util.exceptions.ConnectionException;
 /**
  * Author: tim
  */
-public class Thought extends Observable implements Item {
+public class Thought implements Item {
     private String notes = "";
     private boolean isNew;
     private int id = -1;
@@ -63,9 +63,6 @@ public class Thought extends Observable implements Item {
             }
         }
         
-        setChanged();
-        notifyObservers(this);
-        
         try{
             if (statement != null) {
                 statement.close();
@@ -88,16 +85,6 @@ public class Thought extends Observable implements Item {
             }
         }else
             throw new ConnectionException();
- 
-        setChanged();
-        notifyObservers(this);
-
-    }
-    
-    public static void create(String notes) throws ConnectionException {
-        
-        Thought t = new Thought(notes);
-        t.save();
 
     }
     

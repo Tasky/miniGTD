@@ -52,6 +52,7 @@ public class ThoughtItem extends JPanel {
                     Task task = new Task();
                     form.applyToTask(task);
                     controller.save(task);
+                    controller.remove(thought);
                 }
             }
         });
