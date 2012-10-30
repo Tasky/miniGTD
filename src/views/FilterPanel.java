@@ -82,7 +82,7 @@ public class FilterPanel extends JPanel {
                 }
 
                 private void doPop(MouseEvent e) {
-                    ProjectPopup menu = new ProjectPopup(p);
+                    ProjectPopup menu = new ProjectPopup(p, controller);
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             });

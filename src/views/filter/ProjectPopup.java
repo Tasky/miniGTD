@@ -4,6 +4,7 @@
  */
 package views.filter;
 
+import controller.Controller;
 import models.Project;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.awt.event.ActionListener;
  */
 public class ProjectPopup extends JPopupMenu {
 
-    public ProjectPopup(final Project p) {
+    public ProjectPopup(final Project p, final Controller controller) {
         JMenuItem hernoemen = new JMenuItem("Hernoemen");
         hernoemen.addActionListener(new ActionListener() {
             @Override
@@ -35,7 +36,7 @@ public class ProjectPopup extends JPopupMenu {
                 if (returnal == JOptionPane.YES_OPTION) {
                     p.setName(name.getText());
                     p.setNote(notes.getText());
-//                    controller.saveProject(p);
+                    controller.save(p);
                 }
             }
         });

@@ -196,6 +196,15 @@ public class Controller implements Observer {
         }
     }
 
+    public void save(Project p) {
+        try {
+            p.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         frame.setTitle(getActionName(action));
@@ -214,4 +223,5 @@ public class Controller implements Observer {
     public String getAction() {
         return action;
     }
+
 }

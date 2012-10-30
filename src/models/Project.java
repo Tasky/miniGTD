@@ -74,7 +74,6 @@ public class Project implements Item {
                 throw new ConnectionException();
             }
         }
-
     }
     public void remove() throws ConnectionException {
         PreparedStatement statement = null;
@@ -93,7 +92,7 @@ public class Project implements Item {
         
     }
     
-    public static void create(String name, String note) throws ConnectionException {
+    public void create() throws ConnectionException {
         try {
             PreparedStatement statement = null;
             
