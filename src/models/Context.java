@@ -30,12 +30,13 @@ public class Context {
             if(result.next()) {
                 fromResultSet(result);
             } else {
-                PreparedStatement stat2 = connection.prepareStatement("INSERT INTO projects SET name = ?", Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement stat2 = connection.prepareStatement("INSERT INTO contexts SET name = ?", Statement.RETURN_GENERATED_KEYS);
                 stat2.setString(1, name);
                 stat2.executeUpdate();
                 ResultSet res = stat2.getGeneratedKeys();
                 res.next();
                 this.id = res.getInt(1);
+                this.name = name;
                 stat2.close();
             }
             stat1.close();
