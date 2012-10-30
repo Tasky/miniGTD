@@ -217,11 +217,13 @@ public class Controller implements Observer {
         return action;
     }
 
-    public void removeThought(int id) {
-        Thought t = new Thought(id);
+    public void remove(Object o) {
         try {
-            t.remove();
-        } catch (ConnectionException ex) {
+            if(o instanceof Thought) {
+                Thought o = (Thought)o;
+            }
+            o.remove();
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
