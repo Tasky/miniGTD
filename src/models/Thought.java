@@ -112,14 +112,28 @@ public class Thought implements Item {
         }
         
     }
-    
+
+    public static Integer count() throws ConnectionException {
+        try{
+            PreparedStatement statement = null;
+            statement = DataLayer.getConnection().prepareStatement("SELECT count(*) FROM thoughts");
+            statement.execute();
+            ResultSet res = statement.getResultSet();
+
+            if(res.next()) {
+                return res.getInt(1);
+            }
+            return 0;
+        }catch(SQLException e) {
+            throw new ConnectionException();
+        }
+    }
+
     private void fromResultSet(ResultSet rs) throws SQLException {
         this.isNew = false;
         this.id = rs.getInt("id");
         this.notes = rs.getString("notes");
     }
-    
-    
 
     public String getNotes() {
         return notes;

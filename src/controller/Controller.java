@@ -25,8 +25,7 @@ public class Controller {
     
     public Controller() {
         frame = new MainWindow(this);
-//        open("inbox");
-        open("today");
+        open("inbox");
     }
 
     public void open(String action) {
@@ -42,6 +41,8 @@ public class Controller {
                 frame.showTasks(Task.where(Task.Filter.PLANNED));
             } else if (action.equals("ever")) {
                 frame.showTasks(Task.where(Task.Filter.EVER));
+            } else if (action.equals("history")) {
+                frame.showTasks(Task.where(Task.Filter.HISTORY));
             }
         } catch (ConnectionException e) {
             frame.showConnectionError();
@@ -89,20 +90,22 @@ public class Controller {
     }
 
     public String getActionName(String action) {
-        if (action.equals("inbox")) {
-            return "Inbox (2)";
-        } else if (action.equals("today")) {
-            return "Vandaag";
-        } else if (action.equals("next")) {
-            return "Volgende";
-        } else if (action.equals("planned")) {
-            return "Gepland";
-        } else if (action.equals("ever")) {
-            return "Ooit";
-        } else if (action.equals("history")) {
-            return "Logboek";
-        } else {
-            return "";
+        try {
+            if (action.equals("inbox")) {
+                return "Inbox ("+Thought.count()+ ")";
+            } else if (action.equals("today")) {
+                return "Vandaag ("+Task.count(Task.Filter.TODAY)+ ")";
+            } else if (action.equals("next")) {
+                return "Volgende ("+Task.count(Task.Filter.NEXT)+ ")";
+            } else if (action.equals("planned")) {
+                return "Gepland ("+Task.count(Task.Filter.PLANNED)+ ")";
+            } else if (action.equals("ever")) {
+                return "Ooit ("+Task.count(Task.Filter.EVER)+ ")";
+            } else if (action.equals("history")) {
+                return "Logboek ("+Task.count(Task.Filter.HISTORY)+ ")";
+            }
+        } catch (ConnectionException e) {
         }
+        return "";
     }
 }
