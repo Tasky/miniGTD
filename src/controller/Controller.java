@@ -49,13 +49,7 @@ public class Controller implements Observer {
         try {
             frame.setTitle(getActionName(action));
             if (action.equals("inbox")) {
-                List<Thought> tl = Thought.all();
-                List<Observable> ol = new ArrayList<Observable>();
-                for(Thought t : tl)
-                    ol.add(((Observable)t));
-                
-                this.addObserver(ol);
-                frame.showThoughts(Thought.all(), true);
+                this.showThoughts(Thought.all(), true);
             } else if (action.equals("today")) {
                 frame.showTasks(Task.all(Task.Filter.TODAY), true);
             } else if (action.equals("next")) {
@@ -71,6 +65,13 @@ public class Controller implements Observer {
             frame.showConnectionError();
             e.printStackTrace();
         }
+    }
+
+    private void showThoughts(List<Thought> all, boolean b) {
+        for(Thought t : all)
+            t.addObserver(this);
+
+        frame.showThoughts(all, b);
     }
 
     public List<Status> getStatuses() {
