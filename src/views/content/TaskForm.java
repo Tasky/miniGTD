@@ -11,6 +11,8 @@ import models.Task;
 import models.Thought;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
+import util.exceptions.ConnectionException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +73,11 @@ public class TaskForm extends JPanel {
 
     public void applyToTask(Task task) {
         task.setActionDate(dateChooser.getDate());
-        task.setContext((String) context.getSelectedItem());
+        try {
+            task.setContext((String) context.getSelectedItem());
+        } catch (ConnectionException ignored) {
+
+        }
         task.setDescription(description.getText());
         task.setNotes(notes.getText());
         task.setStatus((Status) status.getSelectedItem());
