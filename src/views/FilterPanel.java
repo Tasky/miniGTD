@@ -62,12 +62,12 @@ public class FilterPanel extends JPanel {
                     public void drop(DropTargetDropEvent event) {
                         Transferable transferable = event.getTransferable();
                         if(transferable.isDataFlavorSupported(TaskItem.FLAVOR)) {
-                            System.out.println("updating task...");
+                            event.acceptDrop(event.getDropAction());
                             Task task = null;
                             try {
                                 task = (Task) transferable.getTransferData(TaskItem.FLAVOR);
                                 task.setProject(p);
-                                controller.save(task);
+                                controller.secureSave(task);
                                 return;
                             } catch (UnsupportedFlavorException ignored) {
 

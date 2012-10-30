@@ -15,10 +15,12 @@ import java.awt.event.MouseEvent;
 
 public class TaskItem extends JPanel implements Transferable, DragGestureListener {
     private DragSource source;
+    private final Controller controller;
     private Task task;
     public static final DataFlavor FLAVOR = new DataFlavor(Task.class, "Task");
 
     public TaskItem(final Controller controller, final Task task) {
+        this.controller = controller;
         this.task = task;
         setOpaque(false);
         setLayout(new MigLayout("", "[][grow][]"));
@@ -75,7 +77,12 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
 
     @Override
     public void dragGestureRecognized(DragGestureEvent dragGestureEvent) {
-        source.startDrag(dragGestureEvent, DragSource.DefaultMoveDrop, this, new DragSourceAdapter() {});
+        source.startDrag(dragGestureEvent, DragSource.DefaultMoveDrop, this, new DragSourceAdapter() {
+            @Override
+            public void dragDropEnd(DragSourceDropEvent dragSourceDropEvent) {
+                controller.refreshTasks();
+            }
+        });
     }
 
     @Override
