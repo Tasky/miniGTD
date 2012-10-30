@@ -82,6 +82,7 @@ public class Controller implements Observer {
                 formEnabled = false;
                 filter = Task.Filter.HISTORY;
             } else if (action.startsWith("project_")) {
+                formEnabled = false;
                 Integer project_id = Integer.valueOf(action.substring("project_".length()));
                 filter = Task.Filter.PROJECT;
                 Task.Filter.PROJECT.setProject_id(project_id);
@@ -149,6 +150,10 @@ public class Controller implements Observer {
                 return "Ooit ("+Task.count(Task.Filter.EVER)+ ")";
             } else if (action.equals("history")) {
                 return "Logboek ("+Task.count(Task.Filter.HISTORY)+ ")";
+            } else if (action.startsWith("project_")) {
+                Integer project_id = Integer.valueOf(action.substring("project_".length()));
+                Project p = new Project(project_id);
+                return "Project " + p.getName();
             }
         } catch (ConnectionException ignored) { }
         return "";

@@ -20,8 +20,27 @@ public class Project implements Item {
         this.isNew = true;
     }
     
-    public Project(int id) {
-        //TODO: get info from SQL
+    public Project(int id) throws ConnectionException {
+        isNew = false;
+        PreparedStatement statement = null;
+        try {
+            statement = DataLayer.getConnection().prepareStatement("select id, name, notes " +
+                    "from projects " +
+                    "where id = ?");
+
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            result.next();
+            fromResultSet(result);
+        } catch (SQLException e) {
+            throw new ConnectionException(e.getMessage());
+        } finally {
+            try {
+                assert statement != null;
+                statement.close();
+            } catch (SQLException ignored) {
+            }
+        }
     }
     
     public Project() {
