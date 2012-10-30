@@ -28,6 +28,7 @@ import models.Task.Sort;
 public class Controller implements Observer {
     
     private MainWindow frame;
+    private Sort order = Sort.ORDER;
     
     public Controller() {
         frame = new MainWindow(this);
@@ -41,7 +42,7 @@ public class Controller implements Observer {
     }
     
     public void sort(Sort s) {
-        System.out.println(s);
+        order = s;
     }
 
     public void open(String action) {
@@ -50,13 +51,13 @@ public class Controller implements Observer {
             if (action.equals("inbox")) {
                 this.showThoughts(Thought.all(), true);
             } else if (action.equals("today")) {
-                frame.showTasks(Task.all(Task.Filter.TODAY), true);
+                frame.showTasks(Task.all(Task.Filter.TODAY), order, true, true);
             } else if (action.equals("next")) {
-                frame.showTasks(Task.all(Task.Filter.NEXT), true);
+                frame.showTasks(Task.all(Task.Filter.NEXT), order, true, true);
             } else if (action.equals("planned")) {
-                frame.showTasks(Task.all(Task.Filter.PLANNED), true);
+                frame.showTasks(Task.all(Task.Filter.PLANNED), order, true, true);
             } else if (action.equals("ever")) {
-                frame.showTasks(Task.all(Task.Filter.EVER), true);
+                frame.showTasks(Task.all(Task.Filter.EVER), order, true, true);
             } else if (action.equals("history")) {
                 frame.showTasks(Task.all(Task.Filter.HISTORY), false);
             }

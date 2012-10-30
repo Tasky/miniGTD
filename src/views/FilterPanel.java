@@ -22,6 +22,7 @@ import java.util.TooManyListenersException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import models.Project;
+import models.Task.Sort;
 import views.filter.*;
 
 public class FilterPanel extends JPanel {
