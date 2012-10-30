@@ -40,8 +40,8 @@ public class Controller implements Observer {
         });
     }
     
-    public Sort sort(Sort s) {
-        return s.ORDER;
+    public void sort(Sort s) {
+        System.out.println(s);
     }
 
     public void open(String action) {
