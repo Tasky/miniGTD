@@ -38,6 +38,12 @@ public class Controller implements Observer {
             }
         });
     }
+    
+    private void addObserver(List<Observable> list) {
+        for(Observable o : list) {
+            o.addObserver(this);
+        }
+    }
 
     public void open(String action) {
         try {
@@ -136,9 +142,10 @@ public class Controller implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("bier");
         try{
             if( arg instanceof Thought) {
-                frame.showThoughts(Thought.all(), true);
+                frame.showThoughts(Thought.all(), false);
             }
         }catch(ConnectionException e){
             e.printStackTrace();
