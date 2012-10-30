@@ -17,13 +17,13 @@ import java.awt.event.ActionListener;
  */
 public class ProjectPopup extends JPopupMenu {
 
-    public ProjectPopup(final Project p, final Controller controller) {
+    public ProjectPopup(final Project project, final Controller controller) {
         JMenuItem hernoemen = new JMenuItem("Hernoemen");
         hernoemen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JTextField name = new JTextField(p.getName());
-                JTextArea notes = new JTextArea(p.getNotes());
+                JTextField name = new JTextField(project.getName());
+                JTextArea notes = new JTextArea(project.getNotes());
                 notes.setRows(3);
                 notes.setColumns(40);
                 final JComponent[] inputs = new JComponent[] {
@@ -34,9 +34,9 @@ public class ProjectPopup extends JPopupMenu {
                 };
                 int returnal = JOptionPane.showConfirmDialog(null, inputs, "Project hernoemen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
-                    p.setName(name.getText());
-                    p.setNotes(notes.getText());
-                    controller.save(p);
+                    project.setName(name.getText());
+                    project.setNotes(notes.getText());
+                    controller.save(project);
                 }
             }
         });
@@ -48,7 +48,7 @@ public class ProjectPopup extends JPopupMenu {
             public void actionPerformed(ActionEvent actionEvent) {
                 int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je dit project wilt verwijderen?"), "Project verwijderen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
-//                    controller.removeProject(p);
+                    controller.remove(project);
                 }
             }
         });

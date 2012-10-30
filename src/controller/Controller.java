@@ -241,11 +241,21 @@ public class Controller implements Observer {
         return action;
     }
 
-    public void remove(Thought t) {
+    public void remove(Thought thought) {
         try {
-            t.remove();
+            thought.remove();
         } catch (ConnectionException ex) {
             ex.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
+
+    public void remove(Project project) {
+        try {
+            project.remove();
+        } catch (ConnectionException ex) {
+            ex.printStackTrace();
+            frame.showConnectionError();
         }
     }
 }
