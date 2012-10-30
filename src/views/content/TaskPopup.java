@@ -46,6 +46,7 @@ public class TaskPopup extends JPopupMenu {
                 int returnal = JOptionPane.showConfirmDialog(null, new JLabel("Weet je zeker dat je deze taak wilt verwijderen?"), "Taak verwijderen", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
                     controller.remove(t);
+                    controller.refreshTasks();
                 }
             }
         });
