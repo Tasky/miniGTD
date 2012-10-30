@@ -17,7 +17,7 @@ public class DataLayer {
                     //con = DriverManager.getConnection("jdbc:mysql://databases.aii.avans.nl/tslot_db",
                     //        "tslot",
                     //        "b8I54LMZ");
-                    con = DriverManager.getConnection("jdbc:mysql://87.117.229.130/minigtd_db", "minigtd", "SfNDBWHPpC6A2epY");
+                    con = DriverManager.getConnection("jdbc:mysql://chilika.roconda.nl/minigtd_db", "minigtd", "SfNDBWHPpC6A2epY");
 
             }
         } catch (SQLException e) {
