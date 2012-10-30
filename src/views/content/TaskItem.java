@@ -1,6 +1,7 @@
 package views.content;
 
 import controller.Controller;
+import models.Status;
 import models.Task;
 import net.miginfocom.swing.MigLayout;
 
@@ -60,9 +61,16 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
 
         add(new JLabel("#"+task.getContext()));
 
-        JComboBox statuses = new JComboBox(controller.getStatuses().toArray());
+        final JComboBox statuses = new JComboBox(controller.getStatuses().toArray());
         statuses.setSelectedItem(task.getStatus());
         add(statuses);
+        statuses.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                task.setStatus((Status) statuses.getSelectedItem());
+                controller.save(task);
+            }
+        });
 
         String date = "";
         if(task.getActionDate() != null)
