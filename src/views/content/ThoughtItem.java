@@ -59,10 +59,9 @@ public class ThoughtItem extends JPanel {
         removeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                TaskForm form = new TaskForm(controller);
-                int returnal = JOptionPane.showConfirmDialog(null, form, "Weet je zeker dat je deze actie wilt weghalen?", JOptionPane.OK_CANCEL_OPTION);
+                int returnal = JOptionPane.showConfirmDialog(null, "Weet je zeker dat je dit wilt verwijderen?", "alert", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {;
-//                    controller.saveProject(p);
+                    controller.remove(thought);
                 }
             }
         });

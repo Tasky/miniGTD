@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Task.Sort;
 
 /**
@@ -217,6 +219,7 @@ public class Controller implements Observer {
             frame.updateFilters();
         }catch(ConnectionException e){
             e.printStackTrace();
+            frame.showConnectionError();
         }
     }
 
@@ -224,4 +227,12 @@ public class Controller implements Observer {
         return action;
     }
 
+    public void remove(Thought t) {
+        try {
+            t.remove();
+        } catch (ConnectionException ex) {
+            ex.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
 }
