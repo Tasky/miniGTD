@@ -52,7 +52,7 @@ public class TaskForm extends JPanel {
 
         context = new JComboBox(controller.getContexts().toArray());
         context.setEditable(true);
-        status.setSelectedItem(task.getContext());
+        context.setSelectedItem(task.getContext());
 
         dateChooser = new JXDatePicker(task.getActionDate());
         status = new JComboBox(controller.getStatuses().toArray());
@@ -74,10 +74,14 @@ public class TaskForm extends JPanel {
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         panel.setLayout(new MigLayout("ins 0", "[][grow]", ""));
+        context.setPreferredSize(new Dimension(120, context.getPreferredSize().height));
+        context.setMaximumSize(new Dimension(120, context.getMaximumSize().height));
         panel.add(generateField(new JLabel("Context:"), context));
         panel.add(new JLabel(""), "growx");
         panel.add(generateField(new JLabel("Datum:"), dateChooser));
         panel.add(new JLabel(""), "growx");
+        status.setPreferredSize(new Dimension(120, status.getPreferredSize().height));
+        status.setMaximumSize(new Dimension(120, status.getMaximumSize().height));
         panel.add(generateField(new JLabel("Status:"), status));
         panel.add(new JLabel(""), "growx");
 
