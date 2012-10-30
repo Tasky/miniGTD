@@ -41,7 +41,7 @@ public class TaskForm extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 Task task = new Task();
                 applyToTask(task);
-                controller.save(task);
+                controller.add(task);
             }
         });
         generateForm();
@@ -77,7 +77,6 @@ public class TaskForm extends JPanel {
             task.setContext((String) context.getSelectedItem());
         } catch (ConnectionException ignored) {
             System.out.println(ignored.getMessage());
-
         }
         task.setDescription(description.getText());
         task.setNotes(notes.getText());
