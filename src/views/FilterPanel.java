@@ -12,10 +12,12 @@ import java.awt.event.*;
 import java.util.Stack;
 import javax.swing.*;
 import javax.swing.border.Border;
+import models.Project;
 import views.filter.*;
 
 public class FilterPanel extends JPanel {
     private Stack<Tab> tabs = new Stack<Tab>();
+    private java.util.List<Project> projects;
     private final Controller controller;
 
     public FilterPanel(final Controller controller) {
@@ -25,6 +27,8 @@ public class FilterPanel extends JPanel {
 //        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setLayout(new MigLayout("ins 0", "[grow]"));
         setBackground(new Color(230, 238, 251));
+        
+        projects = controller.getProjects();
 
         add(new Header("Verzamelen"), "span, growx");
         tabs.push(new Tab("inbox_empty.png", "inbox", controller));
@@ -42,8 +46,9 @@ public class FilterPanel extends JPanel {
 
         add(new Header("Projecten"), "span, growx");
 
-        for (int i = 0; i < 10; i++) {
-            Tab tab = new Tab("to_do_list.png", "project", controller);
+        for (Project p : projects) {
+            Tab tab = new Tab("to_do_list.png", p.getNote(), controller);
+            tab.setText(p.getName());
             tab.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {

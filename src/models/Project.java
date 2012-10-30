@@ -27,10 +27,6 @@ public class Project implements Item {
     public Project() {
         
     }
-
-    public String getNote() {
-        return this.name;
-    }
     
     public void save() throws ConnectionException {
         PreparedStatement statement = null;
@@ -126,8 +122,12 @@ public class Project implements Item {
     
     
 
-    public String getNotes() {
+    public String getName() {
         return name;
+    }
+    
+    public String getNote() {
+        return this.note;
     }
 
     public void setName(String name) {
