@@ -38,12 +38,6 @@ public class Controller implements Observer {
             }
         });
     }
-    
-    private void addObserver(List<Observable> list) {
-        for(Observable o : list) {
-            o.addObserver(this);
-        }
-    }
 
     public void open(String action) {
         try {
@@ -130,6 +124,7 @@ public class Controller implements Observer {
     public void addThought(String text) {
         Thought thought = new Thought();
         thought.setNotes(text);
+        thought.addObserver(this);
         try {
             thought.save();
         } catch (ConnectionException e) {
