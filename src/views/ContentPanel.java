@@ -36,7 +36,7 @@ public class ContentPanel extends JPanel {
         removeAll();
 
         if (formVisible) {
-            ThoughtForm form = new ThoughtForm();
+            ThoughtForm form = new ThoughtForm(controller);
             form.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
             add(form, "span, growx");
         }

@@ -85,7 +85,6 @@ public class TaskForm extends JPanel {
         add(panel, "span, growx");
     }
 
-
     private JComponent generateField(JLabel label, JComponent component) {
         JPanel panel = new JPanel();
         panel.setOpaque(false);

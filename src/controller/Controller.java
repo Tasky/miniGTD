@@ -104,8 +104,18 @@ public class Controller {
             } else if (action.equals("history")) {
                 return "Logboek ("+Task.count(Task.Filter.HISTORY)+ ")";
             }
-        } catch (ConnectionException e) {
-        }
+        } catch (ConnectionException ignored) { }
         return "";
+    }
+
+    public void addThought(String text) {
+        Thought thought = new Thought();
+        thought.setNotes(text);
+        try {
+            thought.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
     }
 }
