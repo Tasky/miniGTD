@@ -32,12 +32,17 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                if (mouseEvent.isPopupTrigger()) return;
-                removeAll();
-                setLayout(new MigLayout("", "[grow]"));
-                add(new TaskForm(controller, task), "grow");
-                revalidate();
-                repaint();
+                if(mouseEvent.getButton() == 1) {
+                    //Left clicked
+                    if (mouseEvent.isPopupTrigger()) return;
+                    removeAll();
+                    setLayout(new MigLayout("", "[grow]"));
+                    add(new TaskForm(controller, task), "grow");
+                    revalidate();
+                    repaint();
+                }else if(mouseEvent.getButton() == 3 ) {
+                    //Right clicked
+                }
             }
         });
         add(label, "growx");
