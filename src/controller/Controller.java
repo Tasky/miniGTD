@@ -130,8 +130,11 @@ public class Controller implements Observer {
         List<Project> list = new ArrayList<Project>();
         try {
             List<Project> tmp = Project.all();
-            for(Project p : tmp)
+            for(Project p : tmp) {
+                p.addObserver(this);
                 list.add(p);
+            }
+
         }catch(ConnectionException e) {
             frame.showConnectionError();
         }
