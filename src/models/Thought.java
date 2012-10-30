@@ -106,7 +106,7 @@ public class Thought extends Observable implements Item {
             
         try{
 
-            statement = DataLayer.getConnection().prepareStatement("SELECT id, notes FROM thoughts");
+            statement = DataLayer.getConnection().prepareStatement("SELECT id, notes FROM thoughts ORDER BY id DESC");
             statement.execute();
             ResultSet res = statement.getResultSet();
 
