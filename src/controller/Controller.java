@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import models.Task.Sort;
 
 /**
  *
@@ -37,6 +38,10 @@ public class Controller implements Observer {
                 DataLayer.closeConnection();
             }
         });
+    }
+    
+    public Sort sort(Sort s) {
+        return s.ORDER;
     }
 
     public void open(String action) {
