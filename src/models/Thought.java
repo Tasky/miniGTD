@@ -24,7 +24,7 @@ public class Thought implements Item {
     }
     
     public Thought() {
-        
+        this.isNew = true;
     }
 
     public String getNote() {
@@ -36,13 +36,16 @@ public class Thought implements Item {
         
         if(isNew) {
             try {
-                statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?");
+                statement = DataLayer.getConnection().prepareStatement("INSERT INTO thoughts SET notes = ?", Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, notes);
-                statement.executeQuery();
+                statement.executeUpdate();
                 ResultSet res = statement.getGeneratedKeys();
-                this.id = res.getInt(1);
+                if (res.next()) {
+                    this.id = res.getInt(1);
+                    isNew = false;
+                }
             } catch (SQLException ex) {
-                throw new ConnectionException();
+                throw new ConnectionException(ex.getMessage());
             }
         }else if(id > 0){
             try {
@@ -51,12 +54,14 @@ public class Thought implements Item {
                 statement.setInt(2, id);
                 statement.execute();
             } catch (SQLException ex) {
-                throw new ConnectionException();
+                throw new ConnectionException(ex.getMessage());
             }
         }
         
         try{
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
         }catch(SQLException e) {
             e.printStackTrace();
         }

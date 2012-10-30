@@ -231,7 +231,7 @@ public class Task implements Item {
         try {
             if (isNew) {
                 statement = DataLayer.getConnection().prepareStatement(
-                        "insert into actions values (null, ?, ?, ?, ?, ?, ?, ?, ?);"
+                        "insert into actions values (null, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS
                 );
             } else {
                 statement = DataLayer.getConnection().prepareStatement(
