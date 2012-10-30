@@ -39,6 +39,7 @@ public class Project implements Item {
                 statement.executeQuery();
                 ResultSet res = statement.getGeneratedKeys();
                 this.id = res.getInt(1);
+                statement.close();
             } catch (SQLException ex) {
                 throw new ConnectionException();
             }
@@ -49,16 +50,12 @@ public class Project implements Item {
                 statement.setString(2, note);
                 statement.setInt(3, id);
                 statement.execute();
+                statement.close();
             } catch (SQLException ex) {
                 throw new ConnectionException();
             }
         }
-        
-        try{
-            statement.close();
-        }catch(SQLException e) {
-            e.printStackTrace();
-        }
+
     }
     public void remove() throws ConnectionException {
         PreparedStatement statement = null;
@@ -106,6 +103,8 @@ public class Project implements Item {
                 t.fromResultSet(res);
                 list.add(t);
             }
+            statement.close();
+            
             return list;
         }catch(SQLException e) {
             throw new ConnectionException();
