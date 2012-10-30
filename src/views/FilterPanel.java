@@ -66,7 +66,6 @@ public class FilterPanel extends JPanel {
                 dropTarget.addDropTargetListener(new DropTargetAdapter() {
                     @Override
                     public void drop(DropTargetDropEvent event) {
-                        System.out.println("test");
                         Object source = event.getSource();
                         if(source instanceof Task) {
                             Task task = (Task) source;
@@ -94,7 +93,7 @@ public class FilterPanel extends JPanel {
                 }
 
                 private void doPop(MouseEvent e) {
-                    ProjectPopup menu = new ProjectPopup();
+                    ProjectPopup menu = new ProjectPopup(p);
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }
             });
