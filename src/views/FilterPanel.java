@@ -5,11 +5,20 @@
 package views;
 
 import controller.Controller;
+import models.Task;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.FlavorMap;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.*;
+import java.util.Map;
 import java.util.Stack;
+import java.util.TooManyListenersException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import models.Project;
@@ -46,21 +55,45 @@ public class FilterPanel extends JPanel {
 
         add(new Header("Projecten"), "span, growx");
 
-        for (Project p : projects) {
+        for (final Project p : projects) {
             Tab tab = new Tab("to_do_list.png", "project", controller);
             tab.setText(p.getName());
             tab.setToolTipText(p.getNote());
+
+            DropTarget dropTarget = new DropTarget();
+            dropTarget.setDefaultActions(DnDConstants.ACTION_MOVE);
+            try {
+                dropTarget.addDropTargetListener(new DropTargetAdapter() {
+                    @Override
+                    public void drop(DropTargetDropEvent event) {
+                        System.out.println("test");
+                        Object source = event.getSource();
+                        if(source instanceof Task) {
+                            Task task = (Task) source;
+                            task.setProject(p.getName());
+                            controller.saveTask(task);
+                        } else {
+                            event.rejectDrop();
+                        }
+                    }
+                });
+            } catch (TooManyListenersException ignored) {
+
+            }
+            tab.setDropTarget(dropTarget);
+
             tab.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {
                     if (mouseEvent.isPopupTrigger()) doPop(mouseEvent);
                 }
+
                 @Override
-                public void mouseReleased(MouseEvent e){
+                public void mouseReleased(MouseEvent e) {
                     if (e.isPopupTrigger()) doPop(e);
                 }
 
-                private void doPop(MouseEvent e){
+                private void doPop(MouseEvent e) {
                     ProjectPopup menu = new ProjectPopup();
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }

@@ -6,15 +6,24 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Author: nanne
  */
-public class TaskItem extends JPanel {
+public class TaskItem extends JPanel implements Transferable, DragGestureListener {
+    private DragSource source;
+    private Task task;
+
     public TaskItem(final Controller controller, final Task task) {
+        this.task = task;
         setOpaque(false);
         setLayout(new MigLayout("", "[][grow][]"));
 
@@ -42,6 +51,9 @@ public class TaskItem extends JPanel {
         add(statuses);
 
         add(new JLabel(task.getActionDate().toString()), "span");
+
+        source = new DragSource();
+        source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);
     }
 
     @Override
@@ -55,5 +67,25 @@ public class TaskItem extends JPanel {
         g.fillRoundRect(0, 0, originalSize.width, originalSize.height, 10, 10);
         // draw the rest
         super.paint(g);
+    }
+
+    @Override
+    public void dragGestureRecognized(DragGestureEvent dragGestureEvent) {
+        source.startDrag(dragGestureEvent, DragSource.DefaultMoveDrop, this, new DragSourceAdapter() {});
+    }
+
+    @Override
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[]{new DataFlavor(Task.class, "Task")};
+    }
+
+    @Override
+    public boolean isDataFlavorSupported(DataFlavor dataFlavor) {
+        return true;
+    }
+
+    @Override
+    public Object getTransferData(DataFlavor dataFlavor) {
+        return task;
     }
 }

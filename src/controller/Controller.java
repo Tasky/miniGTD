@@ -127,4 +127,13 @@ public class Controller {
             frame.showConnectionError();
         }
     }
+
+    public void saveTask(Task task) {
+        try {
+            task.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
 }
