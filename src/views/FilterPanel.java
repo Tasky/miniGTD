@@ -9,20 +9,16 @@ import models.Task;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.FlavorMap;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.*;
-import java.util.Map;
 import java.util.Stack;
 import java.util.TooManyListenersException;
 import javax.swing.*;
-import javax.swing.border.Border;
+
 import models.Project;
-import models.Task.Sort;
 import views.filter.*;
 
 public class FilterPanel extends JPanel {
@@ -71,7 +67,7 @@ public class FilterPanel extends JPanel {
                         if(source instanceof Task) {
                             Task task = (Task) source;
                             task.setProject(p.getName());
-                            controller.saveTask(task);
+                            controller.save(task);
                         } else {
                             event.rejectDrop();
                         }

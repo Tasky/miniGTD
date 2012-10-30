@@ -15,8 +15,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.util.*;
-import java.util.List;
 import javax.swing.*;
 
 public class TaskForm extends JPanel {
@@ -41,7 +39,7 @@ public class TaskForm extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 Task task = new Task();
                 applyToTask(task);
-                controller.saveTask(task);
+                controller.save(task);
             }
         });
         generateForm();
@@ -65,7 +63,7 @@ public class TaskForm extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 applyToTask(task);
-                controller.saveTask(task);
+                controller.save(task);
             }
         });
         generateForm();

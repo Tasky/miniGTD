@@ -132,9 +132,16 @@ public class Controller implements Observer {
         return "";
     }
 
-    public void addThought(String text) {
-        Thought thought = new Thought();
-        thought.setNotes(text);
+    public void add(Task task) {
+        try {
+            task.save();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+            frame.showConnectionError();
+        }
+    }
+
+    public void add(Thought thought) {
         thought.addObserver(this);
         try {
             thought.save();
@@ -144,7 +151,7 @@ public class Controller implements Observer {
         }
     }
 
-    public void saveTask(Task task) {
+    public void save(Task task) {
         try {
             task.save();
         } catch (ConnectionException e) {
@@ -153,7 +160,7 @@ public class Controller implements Observer {
         }
     }
 
-    public void saveThought(Thought thought) {
+    public void save(Thought thought) {
         try {
             thought.save();
         } catch (ConnectionException e) {

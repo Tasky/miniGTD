@@ -51,7 +51,7 @@ public class ThoughtItem extends JPanel {
                 if (returnal == JOptionPane.YES_OPTION) {;
                     Task task = new Task();
                     form.applyToTask(task);
-                    controller.saveTask(task);
+                    controller.save(task);
                 }
             }
         });

@@ -20,7 +20,9 @@ public class ThoughtForm extends JPanel {
         toevoegen.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                controller.addThought(textArea.getText());
+                Thought thought = new Thought();
+                thought.setNotes(textArea.getText());
+                controller.add(thought);
                 removeAll();
                 generateForm(controller);
                 revalidate();
@@ -39,7 +41,7 @@ public class ThoughtForm extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 thought.setNotes(textArea.getText());
-                controller.saveThought(thought);
+                controller.save(thought);
             }
         });
         add(opslaan, "span, align right");
