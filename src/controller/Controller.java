@@ -184,11 +184,10 @@ public class Controller implements Observer {
         }
     }
 
-
-    public void add(Project p) {
-        p.addObserver(this);
+    public void add(Project project) {
+        project.addObserver(this);
         try {
-            p.save();
+            project.save();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();

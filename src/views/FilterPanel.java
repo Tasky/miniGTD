@@ -47,7 +47,7 @@ public class FilterPanel extends JPanel {
         for (final Project p : projects) {
             Tab tab = new Tab("to_do_list.png", "project_"+p.getId(), controller);
             tab.setText(p.getName());
-            tab.setToolTipText(p.getNote());
+            tab.setToolTipText(p.getNotes());
 
             DropTarget dropTarget = new DropTarget();
             dropTarget.setDefaultActions(DnDConstants.ACTION_MOVE);
@@ -108,7 +108,7 @@ public class FilterPanel extends JPanel {
                 int returnal = JOptionPane.showConfirmDialog(null, inputs, "Project aanmaken", JOptionPane.OK_CANCEL_OPTION);
                 if (returnal == JOptionPane.YES_OPTION) {
                     p.setName(name.getText());
-                    p.setNote(notes.getText());
+                    p.setNotes(notes.getText());
                     controller.add(p);
                 }
             }
