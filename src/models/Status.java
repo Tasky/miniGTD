@@ -21,7 +21,14 @@ public class Status {
     private int id;
     private String name;
 
-    
+    public Status() {
+
+    }
+    public Status(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public static List<Status> all() throws ConnectionException {
         List<Status> list = new ArrayList<Status>();
         PreparedStatement statement = null;
@@ -54,5 +61,9 @@ public class Status {
     
     public int getId() {
         return this.id;
+    }
+    @Override
+    public String toString() {
+        return getName();
     }
 }

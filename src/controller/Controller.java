@@ -61,18 +61,13 @@ public class Controller implements Observer {
         }
     }
 
-    public List<String> getStatuses() {
-        List<String> list = new ArrayList<String>();
-        list.add("");
+    public List<Status> getStatuses() {
         try {
-            List<Status> statuses = Status.all();
-            for (Status status : statuses) {
-                list.add(status.getName());
-            }
+            return(Status.all());
         } catch (ConnectionException e) {
             frame.showConnectionError();
         }
-        return list;
+        return new ArrayList<Status>();
     }
 
     public List<String> getContexts() {

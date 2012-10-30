@@ -1,6 +1,7 @@
 package views.content;
 
 import controller.Controller;
+import models.Status;
 import models.Task;
 import net.miginfocom.swing.MigLayout;
 
@@ -45,12 +46,15 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
 
         add(new JLabel(task.getContext()));
 
-        List<String> strings = controller.getStatuses();
+        List<Status> strings = controller.getStatuses();
         JComboBox statuses = new JComboBox(strings.toArray());
         statuses.setSelectedItem(task.getStatus());
         add(statuses);
 
-        add(new JLabel(task.getActionDate().toString()), "span");
+        String date = "";
+        if(task.getActionDate() != null)
+            date = task.getActionDate().toString();
+        add(new JLabel(date), "span");
 
         source = new DragSource();
         source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);

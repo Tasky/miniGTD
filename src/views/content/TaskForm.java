@@ -6,10 +6,13 @@ package views.content;
 
 
 import controller.Controller;
+import models.Status;
 import models.Task;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.swingx.JXDatePicker;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.*;
 import java.util.List;
@@ -24,7 +27,7 @@ public class TaskForm extends JPanel {
     private JComboBox status;
     private JButton button;
 
-    public TaskForm(Controller controller) {
+    public TaskForm(final Controller controller) {
         super(null);
         setLayout(new MigLayout("", "[][grow]", ""));
 
@@ -39,10 +42,21 @@ public class TaskForm extends JPanel {
         status = new JComboBox(controller.getStatuses().toArray());
 
         button = new JButton("Toevoegen");
-
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Task task = new Task();
+                task.setActionDate(dateChooser.getDate());
+                task.setContext((String) context.getSelectedItem());
+                task.setDescription(description.getText());
+                task.setNotes(notes.getText());
+                task.setStatus((Status) status.getSelectedItem());
+                controller.saveTask(task);
+            }
+        });
         generateForm();
     }
-    public TaskForm(Controller controller, Task task) {
+    public TaskForm(final Controller controller, final Task task) {
         super(null);
         setLayout(new MigLayout("ins 0", "[][grow]", ""));
 
@@ -59,6 +73,17 @@ public class TaskForm extends JPanel {
         status.setSelectedItem(task.getStatus());
 
         button = new JButton("Aanpassen");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                task.setActionDate(dateChooser.getDate());
+                task.setContext((String) context.getSelectedItem());
+                task.setDescription(description.getText());
+                task.setNotes(notes.getText());
+                task.setStatus((Status) status.getSelectedItem());
+                controller.saveTask(task);
+            }
+        });
         generateForm();
     }
 
