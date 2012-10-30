@@ -8,7 +8,7 @@ import java.util.Observable;
 
 import util.exceptions.ConnectionException;
 
-public class Project extends Observable implements Item {
+public class Project implements Item {
     private String notes = "";
     private String name = "";
     private boolean isNew;
@@ -68,8 +68,6 @@ public class Project extends Observable implements Item {
                 throw new ConnectionException(ex.getMessage());
             }
         }
-        this.setChanged();
-        this.notifyObservers(this);
     }
     public void remove() throws ConnectionException {
         PreparedStatement statement = null;
@@ -80,8 +78,6 @@ public class Project extends Observable implements Item {
                 statement.setInt(1, id);
                 statement.execute();
                 statement.close();
-                this.setChanged();
-                this.notifyObservers(this);
             } catch (SQLException ex) {
                throw new ConnectionException();
             }

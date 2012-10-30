@@ -27,7 +27,7 @@ import models.Task.Sort;
  *
  * @author tim
  */
-public class Controller implements Observer {
+public class Controller {
     
     private MainWindow frame;
     private Sort order = Sort.ORDER;
@@ -60,6 +60,22 @@ public class Controller implements Observer {
             frame.showConnectionError();
             e.printStackTrace();
         }
+        refresh();
+    }
+
+    private void refreshThoughts() {
+        try {
+            frame.updateThoughts(Thought.all());
+        } catch (ConnectionException e) {
+            frame.showConnectionError();
+            e.printStackTrace();
+        }
+        refresh();
+    }
+
+    private void refresh() {
+        frame.updateFilters();
+        frame.setTitle(getActionName(action));
     }
 
     public void open(String action) {
@@ -67,7 +83,7 @@ public class Controller implements Observer {
         try {
             frame.setTitle(getActionName(action));
             if (action.equals("inbox")) {
-                this.showThoughts(Thought.all(), true);
+                this.showThoughts(Thought.all());
                 return;
             }
 
@@ -97,10 +113,7 @@ public class Controller implements Observer {
         }
     }
 
-    private void showThoughts(List<Thought> all, boolean b) {
-        for(Thought t : all)
-            t.addObserver(this);
-
+    private void showThoughts(List<Thought> all) {
         frame.showThoughts(all);
     }
 
@@ -130,10 +143,8 @@ public class Controller implements Observer {
         List<Project> list = new ArrayList<Project>();
         try {
             List<Project> tmp = Project.all();
-            for(Project p : tmp) {
-                p.addObserver(this);
+            for(Project p : tmp)
                 list.add(p);
-            }
 
         }catch(ConnectionException e) {
             frame.showConnectionError();
@@ -165,9 +176,10 @@ public class Controller implements Observer {
     }
 
     public void add(Task task) {
-        task.addObserver(this);
         try {
             task.save();
+            open(action);
+            refresh();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
@@ -175,9 +187,10 @@ public class Controller implements Observer {
     }
 
     public void add(Thought thought) {
-        thought.addObserver(this);
         try {
             thought.save();
+            frame.showThoughts(Thought.all());
+            refresh();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
@@ -185,9 +198,9 @@ public class Controller implements Observer {
     }
 
     public void add(Project project) {
-        project.addObserver(this);
         try {
             project.save();
+            refresh();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
@@ -197,6 +210,7 @@ public class Controller implements Observer {
     public void save(Task task) {
         try {
             task.save();
+            refreshTasks();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
@@ -206,6 +220,7 @@ public class Controller implements Observer {
     public void save(Thought thought) {
         try {
             thought.save();
+            refreshThoughts();
         } catch (ConnectionException e) {
             e.printStackTrace();
             frame.showConnectionError();
@@ -215,23 +230,8 @@ public class Controller implements Observer {
     public void save(Project p) {
         try {
             p.save();
+            refresh();
         } catch (ConnectionException e) {
-            e.printStackTrace();
-            frame.showConnectionError();
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        frame.setTitle(getActionName(action));
-        try{
-            if( arg instanceof Thought) {
-                frame.updateThoughts(Thought.all());
-            } else if (arg instanceof Task) {
-                refreshTasks();
-            }
-            frame.updateFilters();
-        }catch(ConnectionException e){
             e.printStackTrace();
             frame.showConnectionError();
         }
@@ -244,6 +244,7 @@ public class Controller implements Observer {
     public void remove(Thought thought) {
         try {
             thought.remove();
+            refreshThoughts();
         } catch (ConnectionException ex) {
             ex.printStackTrace();
             frame.showConnectionError();
@@ -253,6 +254,7 @@ public class Controller implements Observer {
     public void remove(Project project) {
         try {
             project.remove();
+            refresh();
         } catch (ConnectionException ex) {
             ex.printStackTrace();
             frame.showConnectionError();

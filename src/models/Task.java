@@ -12,7 +12,7 @@ import java.util.Observable;
 /**
  * Author: nanne
  */
-public class Task extends Observable implements Item {
+public class Task implements Item {
     private int id = -1;
     private String description = "";
     private Status status;
@@ -243,8 +243,6 @@ public class Task extends Observable implements Item {
                     isNew = true;
                 }
                 statement.close();
-                this.setChanged();
-                this.notifyObservers(this);
             } catch (SQLException e) {
                 throw new ConnectionException();
             }
@@ -328,9 +326,6 @@ public class Task extends Observable implements Item {
                 }
             }
         }
-        
-        this.setChanged();
-        this.notifyObservers(this);
     }
 
     public String getDescription() {
