@@ -38,7 +38,9 @@ public class TaskItem extends JPanel implements Transferable, DragGestureListene
             }
         });
         add(checkBox);
-        JLabel label = new JLabel(task.getDescription());
+        JTextArea label = new JTextArea(task.getDescription());
+        label.setLineWrap(true);
+        label.setToolTipText(task.getNotes());
         final JPanel jpanel = this;
         MouseAdapter adapter = new MouseAdapter() {
             @Override
