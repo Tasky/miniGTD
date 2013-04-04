@@ -9,8 +9,11 @@ import models.Task;
 import models.Thought;
 import net.miginfocom.swing.MigLayout;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import models.Task.Sort;
 
@@ -29,7 +32,9 @@ public class MainWindow extends JFrame {
         setBounds(0, 0, 950, 700);
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(1000, 700));
-
+        
+        setIconImage( new ImageIcon(getClass().getResource("/resources/icons/to_do_list_cheked_1.png")).getImage());
+        
         setLayout(new MigLayout("ins 0, fill, gap 0", "[][grow]", "[grow]"));
 
         navpane = new FilterPanel(controller);
@@ -49,7 +54,7 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
-    public void showConnectionError() {
+	public void showConnectionError() {
         //TODO: omgaan met SQL problemen
         contentpane.setBackground(Color.RED);
     }
